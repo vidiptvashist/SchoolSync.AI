@@ -50,7 +50,7 @@ from livekit.agents import (
     StopResponse,
     tts,
 )
-from livekit.plugins import deepgram, google, silero
+from livekit.plugins import deepgram, google, silero, groq
 
 from sarvam_tts import SarvamTTS
 
@@ -61,6 +61,7 @@ logger.setLevel(logging.INFO)
 
 DEEPGRAM_API_KEY = os.getenv("DEEPGRAM_API_KEY", "")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 SARVAM_API_KEY = os.getenv("SARVAM_API_KEY", "")
 REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379")
 DATABASE_URL = os.getenv("DATABASE_URL", "")
@@ -827,9 +828,9 @@ async def entrypoint(ctx: JobContext):
             language="hi",
             model="nova-2",
         ),
-        llm=google.LLM(
-            model="gemini-2.5-flash",
-            api_key=GEMINI_API_KEY,
+        llm=groq.LLM(
+            model="llama-3.3-70b-versatile",
+            api_key=GROQ_API_KEY,
         ),
         tts=tts.StreamAdapter(
             tts=SarvamTTS(
