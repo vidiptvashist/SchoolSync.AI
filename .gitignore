@@ -1,0 +1,15 @@
+# Python virtual environments
+.venv/
+venv/
+env/
+.env
+
+# System files
+.DS_Store
+
+# Audio caches and uploads
+*.pcm
+*.wav
+*.mp3
+school-voice-platform/backend/uploads/
+school-voice-platform/backend/voice_agent/tts_cache/
