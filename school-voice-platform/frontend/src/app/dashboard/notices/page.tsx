@@ -147,13 +147,13 @@ export default function NoticesPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-7xl mx-auto animate-fadeIn duration-300">
       
       {/* Page Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight text-slate-900">Notice Management</h2>
-          <p className="text-sm text-slate-500">
+          <h2 className="text-2xl font-extrabold tracking-tight text-white">Notice Management</h2>
+          <p className="text-sm text-slate-400 font-medium mt-1">
             Create notices and templates to synthesize into automated parent voice notifications
           </p>
         </div>
@@ -162,78 +162,81 @@ export default function NoticesPage() {
         <Sheet open={openCreate} onOpenChange={setOpenCreate}>
           <SheetTrigger
             render={
-              <Button className="bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition-all duration-150 shadow-sm">
+              <Button className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold transition-all duration-150 shadow-lg shadow-amber-500/10 cursor-pointer">
                 Create Notice
               </Button>
             }
           />
-          <SheetContent className="bg-white border-l border-slate-200 p-6 flex flex-col gap-6 overflow-y-auto">
-            <SheetHeader>
-              <SheetTitle className="text-slate-800 font-bold">New Notice Template</SheetTitle>
-              <SheetDescription className="text-slate-500">
+          <SheetContent className="bg-slate-900 border-l border-slate-800 text-slate-100 p-6 flex flex-col gap-6 overflow-y-auto w-full sm:max-w-md shadow-2xl">
+            <SheetHeader className="space-y-2 pb-4 border-b border-slate-800">
+              <SheetTitle className="text-white font-extrabold text-lg uppercase tracking-wider">New Notice Template</SheetTitle>
+              <SheetDescription className="text-slate-400 text-xs font-medium">
                 Compose a notice. The message text will be converted to high-quality audio using voice AI.
               </SheetDescription>
             </SheetHeader>
             
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               {/* Title Input */}
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-slate-700">Notice Title</label>
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-0.5">Notice Title</label>
                 <Input
-                  className="bg-white border-slate-200 text-slate-800 focus:ring-indigo-500 focus:border-indigo-500"
+                  className="bg-slate-950 border-slate-800 text-slate-200 placeholder-slate-600 focus-visible:ring-amber-500 focus-visible:border-amber-500 text-sm h-10 rounded-lg"
                   placeholder="e.g. Diwali Holiday Announcement"
                   {...register("title")}
                 />
                 {errors.title && (
-                  <p className="text-xs text-red-500">{errors.title.message}</p>
+                  <p className="text-xs text-red-400">{errors.title.message}</p>
                 )}
               </div>
 
               {/* Type Select */}
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-slate-700">Notice Type</label>
-                <Select {...register("type")}>
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-0.5">Notice Type</label>
+                <select 
+                  className="w-full bg-slate-950 border border-slate-800 text-slate-200 focus:ring-amber-500 focus:border-amber-500 text-sm h-10 rounded-lg px-3 outline-none"
+                  {...register("type")}
+                >
                   <option value="general">General Notification</option>
                   <option value="holiday">Holiday Announcement</option>
                   <option value="ptm">PTM Meeting Announcement</option>
                   <option value="emergency">Emergency Alert</option>
                   <option value="fee">Fee Payment Reminder</option>
-                </Select>
+                </select>
               </div>
 
               {/* Message Content Textarea */}
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-slate-700">Voice Message Content (TTS Text)</label>
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-0.5">Voice Message Content (TTS Text)</label>
                 <Textarea
                   rows={6}
-                  className="bg-white border-slate-200 text-slate-800 focus:ring-indigo-500 focus:border-indigo-500"
+                  className="bg-slate-950 border-slate-800 text-slate-200 placeholder-slate-600 focus-visible:ring-amber-500 focus-visible:border-amber-500 text-sm rounded-lg"
                   placeholder="नमस्ते अभिभावक, दीपावली के पावन अवसर पर विद्यालय 12 नवंबर से 16 नवंबर तक बंद रहेगा..."
                   {...register("message")}
                 />
-                <span className="text-xs text-slate-400 block mt-1">
+                <span className="text-[10px] text-slate-500 font-medium block mt-1">
                   💡 Tip: For best results, write the message in clear Hindi/Hindi-English terms.
                 </span>
                 {errors.message && (
-                  <p className="text-xs text-red-500">{errors.message.message}</p>
+                  <p className="text-xs text-red-400">{errors.message.message}</p>
                 )}
               </div>
 
               {/* Action Buttons */}
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
                 <Button
                   type="button"
                   variant="outline"
                   onClick={() => setOpenCreate(false)}
-                  className="border-slate-300 text-slate-700 hover:bg-slate-50"
+                  className="border-slate-800 text-slate-300 hover:bg-slate-950"
                 >
                   Cancel
                 </Button>
                 <Button
                   type="submit"
                   disabled={loading}
-                  className="bg-indigo-600 hover:bg-indigo-500 text-white font-medium shadow-sm transition-all duration-150"
+                  className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold shadow-lg shadow-amber-500/10 cursor-pointer"
                 >
-                  {loading ? "Generating Notice..." : "Create notice"}
+                  {loading ? "Generating..." : "Create notice"}
                 </Button>
               </div>
             </form>
@@ -245,28 +248,26 @@ export default function NoticesPage() {
       {notices.length > 0 ? (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {notices.map((notice) => (
-            <Card key={notice.id} className="flex flex-col justify-between hover:shadow-md transition-shadow duration-200">
+            <Card key={notice.id} className="glass-panel flex flex-col justify-between hover:shadow-2xl hover:border-slate-700/80 transition-all duration-300 relative overflow-hidden group">
               <CardHeader className="space-y-2 pb-3">
                 <div className="flex items-center justify-between gap-2">
-                  <Badge variant="secondary" className="bg-indigo-50 text-indigo-700 border-none font-medium">
+                  <Badge className="bg-amber-500/10 text-amber-400 border border-amber-500/20 font-bold px-2 py-0.5 rounded text-[10px]">
                     {getTypeLabel(notice.type)}
                   </Badge>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5">
                     {getStatusBadge(notice.audio_status)}
-                    <Button
-                      variant="ghost"
-                      size="sm"
+                    <button
                       onClick={() => handleDeleteNotice(notice.id)}
-                      className="h-7 w-7 p-0 text-red-600 hover:text-red-900 hover:bg-red-50 rounded-full"
+                      className="h-7 w-7 flex items-center justify-center text-slate-500 hover:text-rose-450 hover:bg-rose-500/10 rounded-full transition-colors cursor-pointer"
                       title="Delete Notice"
                     >
                       <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                       </svg>
-                    </Button>
+                    </button>
                   </div>
                 </div>
-                <CardTitle className="text-base font-bold text-slate-800 line-clamp-1">
+                <CardTitle className="text-base font-extrabold text-white line-clamp-1">
                   {notice.title}
                 </CardTitle>
                 <CardDescription className="text-xs text-slate-400">
@@ -274,23 +275,23 @@ export default function NoticesPage() {
                 </CardDescription>
               </CardHeader>
               
-              <CardContent className="text-sm text-slate-600 line-clamp-4 pb-4">
+              <CardContent className="text-sm text-slate-300 line-clamp-4 pb-4 font-medium leading-relaxed">
                 {notice.message}
               </CardContent>
               
-              <CardFooter className="border-t border-slate-100 pt-4 bg-slate-50/50 rounded-b-2xl">
+              <CardFooter className="border-t border-slate-800/80 pt-4 bg-slate-950/40 rounded-b-2xl">
                 {notice.audio_url ? (
-                  <div className="w-full flex items-center justify-between">
-                    <span className="text-xs text-slate-400 font-medium font-mono">WAV Format</span>
+                  <div className="w-full flex items-center justify-between gap-2">
+                    <span className="text-[10px] text-slate-500 font-bold font-mono tracking-wider uppercase">WAV Mono</span>
                     <audio
                       src={`${api.defaults.baseURL || "http://localhost:8000"}${notice.audio_url}`}
                       controls
-                      className="h-8 max-w-[180px] w-full"
+                      className="h-7 max-w-[170px] w-full accent-amber-500"
                     />
                   </div>
                 ) : (
-                  <span className="text-xs text-slate-400 font-medium">
-                    {notice.audio_status === "failed" ? "❌ Generation failed" : "⏳ Synthesizing voice..."}
+                  <span className="text-xs text-slate-400 font-medium flex items-center gap-1.5">
+                    {notice.audio_status === "failed" ? "❌ Audio Generation failed" : "⏳ Synthesizing AI voice..."}
                   </span>
                 )}
               </CardFooter>
@@ -298,10 +299,10 @@ export default function NoticesPage() {
           ))}
         </div>
       ) : (
-        <div className="bg-white border border-slate-200 rounded-2xl p-12 shadow-sm text-center flex flex-col items-center justify-center min-h-[300px]">
-          <div className="rounded-full bg-slate-100 p-4 mb-4">
+        <div className="glass-panel rounded-3xl p-12 text-center flex flex-col items-center justify-center min-h-[300px] border border-slate-800/80">
+          <div className="rounded-full bg-slate-900/80 border border-slate-800 p-4 mb-4">
             <svg
-              className="h-8 w-8 text-slate-400"
+              className="h-8 w-8 text-amber-500 animate-pulse"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -314,13 +315,13 @@ export default function NoticesPage() {
               />
             </svg>
           </div>
-          <h3 className="text-lg font-bold text-slate-800">No notices created yet</h3>
-          <p className="text-slate-500 text-sm max-w-sm mt-1 mb-4">
+          <h3 className="text-lg font-bold text-white">No notices created yet</h3>
+          <p className="text-slate-400 text-sm max-w-sm mt-1 mb-4 font-medium leading-relaxed">
             Notice templates are required before you can dispatch voice broadcasting campaigns. Click the button to create your first notice!
           </p>
           <Button
             onClick={() => setOpenCreate(true)}
-            className="bg-indigo-600 hover:bg-indigo-500 text-white font-medium"
+            className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold shadow-lg shadow-amber-500/10 cursor-pointer"
           >
             Create Notice Template
           </Button>

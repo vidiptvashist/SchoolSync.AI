@@ -44,7 +44,7 @@ class KnowledgeBaseService:
         self._client = QdrantClient(
             url=QDRANT_URL,
             api_key=QDRANT_API_KEY,
-            timeout=3,
+            timeout=10,
         )
         genai.configure(api_key=GEMINI_API_KEY)
 

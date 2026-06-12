@@ -61,7 +61,7 @@ interface SchoolDetail {
   id: string;
   name: string;
   city: string | null;
-  exotel_number: string | null;
+  phone: string | null;
   is_active: boolean;
   created_at: string;
   admins: AdminUser[];
@@ -83,7 +83,7 @@ export default function SchoolDetailPage() {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [editName, setEditName] = useState("");
   const [editCity, setEditCity] = useState("");
-  const [editExotel, setEditExotel] = useState("");
+  const [editPhone, setEditPhone] = useState("");
   const [editLoading, setEditLoading] = useState(false);
 
   // Status toggle states
@@ -109,7 +109,7 @@ export default function SchoolDetailPage() {
       if (res.data) {
         setEditName(res.data.name || "");
         setEditCity(res.data.city || "");
-        setEditExotel(res.data.exotel_number || "");
+        setEditPhone(res.data.phone || "");
       }
     } catch (err: any) {
       console.error("Failed to load school details:", err);
@@ -138,7 +138,7 @@ export default function SchoolDetailPage() {
       await superAdminApi.patch(`/super-admin/schools/${schoolId}`, {
         name: editName,
         city: editCity || null,
-        exotel_number: editExotel || null
+        phone: editPhone || null
       });
       toast.success("School details updated successfully");
       setIsEditOpen(false);
@@ -260,15 +260,10 @@ export default function SchoolDetailPage() {
                   {school.city}
                 </span>
               )}
-              {school.exotel_number ? (
-                <span className="flex items-center gap-1 font-mono">
+              {school.phone && (
+                <span className="flex items-center gap-1">
                   <Phone className="h-3.5 w-3.5 text-slate-500" />
-                  {school.exotel_number}
-                </span>
-              ) : (
-                <span className="flex items-center gap-1 text-slate-600 italic">
-                  <Phone className="h-3.5 w-3.5 text-slate-700" />
-                  No Dedicated Number Configured
+                  Contact/SIP: {school.phone}
                 </span>
               )}
               <span className="flex items-center gap-1">
@@ -527,12 +522,12 @@ export default function SchoolDetailPage() {
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Exotel Dedicated Number</label>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Contact Phone / SIP Number</label>
               <Input
-                value={editExotel}
-                onChange={(e) => setEditExotel(e.target.value)}
-                placeholder="e.g. 01141189359"
-                className="bg-slate-900 border-slate-800 text-slate-100 focus-visible:ring-amber-500 text-sm h-10 rounded-lg font-mono"
+                value={editPhone}
+                onChange={(e) => setEditPhone(e.target.value)}
+                placeholder="e.g. +918065481432"
+                className="bg-slate-900 border-slate-800 text-slate-100 focus-visible:ring-amber-500 text-sm h-10 rounded-lg font-medium"
               />
             </div>
 

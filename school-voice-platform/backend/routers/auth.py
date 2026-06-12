@@ -30,7 +30,6 @@ class LoginResponse(BaseModel):
 class SchoolRegisterRequest(BaseModel):
     school_name: str
     school_phone: Optional[str] = None
-    school_exotel_number: Optional[str] = None
     admin_email: str
     admin_password: str
 
@@ -115,8 +114,7 @@ async def register_school(
     # 2. Create and persist the school record
     new_school = School(
         name=request.school_name,
-        phone=request.school_phone,
-        exotel_number=request.school_exotel_number
+        phone=request.school_phone
     )
     db.add(new_school)
     # Flush registers new_school.id so it is available for foreign key mapping

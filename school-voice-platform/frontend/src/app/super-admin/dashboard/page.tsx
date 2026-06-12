@@ -36,7 +36,7 @@ export default function SuperAdminDashboard() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [newSchoolName, setNewSchoolName] = useState("");
   const [newCity, setNewCity] = useState("");
-  const [newExotel, setNewExotel] = useState("");
+  const [newSchoolPhone, setNewSchoolPhone] = useState("");
   const [newAdminEmail, setNewAdminEmail] = useState("");
   const [newAdminName, setNewAdminName] = useState("");
   const [createLoading, setCreateLoading] = useState(false);
@@ -86,7 +86,7 @@ export default function SuperAdminDashboard() {
       const res = await superAdminApi.post("/super-admin/schools", {
         school_name: newSchoolName,
         city: newCity || null,
-        exotel_number: newExotel || null,
+        school_phone: newSchoolPhone || null,
         admin_email: newAdminEmail,
         admin_name: newAdminName || null
       });
@@ -94,7 +94,7 @@ export default function SuperAdminDashboard() {
       // Clear input fields
       setNewSchoolName("");
       setNewCity("");
-      setNewExotel("");
+      setNewSchoolPhone("");
       setNewAdminEmail("");
       setNewAdminName("");
       setIsSheetOpen(false);
@@ -207,11 +207,11 @@ export default function SuperAdminDashboard() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Exotel Dedicated Number</label>
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Contact Phone / SIP Number</label>
                 <Input
-                  placeholder="e.g. 01141189359"
-                  value={newExotel}
-                  onChange={(e) => setNewExotel(e.target.value)}
+                  placeholder="e.g. +918065481432"
+                  value={newSchoolPhone}
+                  onChange={(e) => setNewSchoolPhone(e.target.value)}
                   className="bg-slate-900 border-slate-800 text-slate-100 focus-visible:ring-amber-500 text-sm h-10 rounded-lg"
                 />
               </div>
@@ -347,7 +347,6 @@ export default function SuperAdminDashboard() {
                   <TableRow className="border-b border-slate-800">
                     <TableHead className="text-slate-300 font-bold text-xs uppercase tracking-wider py-4 pl-6">School Name</TableHead>
                     <TableHead className="text-slate-300 font-bold text-xs uppercase tracking-wider">City</TableHead>
-                    <TableHead className="text-slate-300 font-bold text-xs uppercase tracking-wider">Exotel Dedicated</TableHead>
                     <TableHead className="text-slate-300 font-bold text-xs uppercase tracking-wider text-right">Students</TableHead>
                     <TableHead className="text-slate-300 font-bold text-xs uppercase tracking-wider text-right">Calls (Month)</TableHead>
                     <TableHead className="text-slate-300 font-bold text-xs uppercase tracking-wider text-right">Last Active</TableHead>
@@ -367,16 +366,6 @@ export default function SuperAdminDashboard() {
                           </span>
                         ) : (
                           <span className="text-slate-600 italic">Unspecified</span>
-                        )}
-                      </TableCell>
-                      <TableCell className="text-slate-300 font-mono text-xs font-semibold">
-                        {school.exotel_number ? (
-                          <span className="flex items-center gap-1.5">
-                            <Phone className="h-3 w-3 text-slate-500" />
-                            {school.exotel_number}
-                          </span>
-                        ) : (
-                          <span className="text-slate-600 italic">None</span>
                         )}
                       </TableCell>
                       <TableCell className="text-right text-slate-300 font-bold">{school.stats?.total_students || 0}</TableCell>

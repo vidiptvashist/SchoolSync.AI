@@ -8,15 +8,8 @@ load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379")
 
-# --- Exotel Credentials ---
-EXOTEL_ACCOUNT_SID = os.getenv("EXOTEL_ACCOUNT_SID")
-EXOTEL_API_KEY = os.getenv("EXOTEL_API_KEY")
-EXOTEL_API_TOKEN = os.getenv("EXOTEL_API_TOKEN")
-EXOTEL_REGION = os.getenv("EXOTEL_REGION")
-EXOTEL_SUBDOMAIN = os.getenv("EXOTEL_SUBDOMAIN")
-EXOTEL_CALLER_ID = os.getenv("EXOTEL_CALLER_ID")
-EXOTEL_TEST_FROM = os.getenv("EXOTEL_TEST_FROM")
-EXOTEL_APP_ID = os.getenv("EXOTEL_APP_ID")
+# --- Vobiz Credentials ---
+VOBIZ_OUTBOUND_TRUNK_ID = os.getenv("VOBIZ_OUTBOUND_TRUNK_ID")
 
 # --- AI API Keys ---
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")

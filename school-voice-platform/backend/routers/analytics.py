@@ -13,7 +13,10 @@ from models.user import User
 from models.call_log import CallLog
 from models.campaign import Campaign
 from models.student import Student
+from models.chat_session import ChatSession
+from models.chat_message import ChatMessage
 from core.dependencies import get_current_user
+from routers.chat import auto_close_stale_sessions
 from settings import REDIS_URL
 
 logger = logging.getLogger("analytics_router")
@@ -66,9 +69,9 @@ async def get_overview(
     date_from_str = dt_from.strftime("%Y-%m-%d")
     date_to_str = dt_to.strftime("%Y-%m-%d")
     
-    # 2. Attempt to serve from Redis Cache
+    # 2. Attempt to serve from Redis Cache (Bypassed in local/dev to ensure real-time updates)
     cache_key = f"analytics:{current_user.school_id}:{date_from_str}:{date_to_str}"
-    if redis_client:
+    if False and redis_client:
         try:
             cached_val = redis_client.get(cache_key)
             if cached_val:
@@ -77,7 +80,7 @@ async def get_overview(
         except Exception as e:
             logger.error(f"Redis cache check failed: {e}")
 
-    logger.info(f"Analytics Cache MISS for key: {cache_key}. Executing DB queries...")
+    logger.info(f"Analytics Cache BYPASSED/MISS for key: {cache_key}. Executing live DB queries...")
 
     # 3. Query main statistics using aggregation
     metrics_query = select(
@@ -186,6 +189,51 @@ async def get_overview(
         for row in campaign_result.all()
     ]
 
+    # 6.5 Query Chat statistics
+    if current_user.school_id:
+        await auto_close_stale_sessions(current_user.school_id, db)
+
+    chat_metrics_query = select(
+        func.count(ChatSession.id).label("total_sessions"),
+        func.sum(case((ChatSession.status == "active", 1), else_=0)).label("active_sessions"),
+        func.coalesce(func.avg(ChatSession.message_count), 0).label("avg_messages")
+    ).filter(
+        ChatSession.school_id == current_user.school_id,
+        ChatSession.started_at >= dt_from,
+        ChatSession.started_at <= dt_to
+    )
+    chat_metrics_res = await db.execute(chat_metrics_query)
+    chat_metrics = chat_metrics_res.first()
+    
+    total_sessions = chat_metrics.total_sessions or 0
+    active_sessions = chat_metrics.active_sessions or 0
+    avg_messages_per_session = float(round(chat_metrics.avg_messages or 0.0, 1))
+
+    chat_intents_query = select(
+        ChatMessage.intent,
+        func.count(ChatMessage.id).label("count")
+    ).filter(
+        ChatMessage.school_id == current_user.school_id,
+        ChatMessage.created_at >= dt_from,
+        ChatMessage.created_at <= dt_to,
+        ChatMessage.intent.isnot(None),
+        ChatMessage.intent != "",
+        ChatMessage.intent != "unknown"
+    ).group_by(
+        ChatMessage.intent
+    ).order_by(
+        func.count(ChatMessage.id).desc()
+    )
+    chat_intents_res = await db.execute(chat_intents_query)
+    top_chat_intents = [
+        {
+            "intent": row.intent,
+            "count": row.count,
+            "label": INTENT_LABELS.get(row.intent, row.intent.replace("_", " ").title())
+        }
+        for row in chat_intents_res.all()
+    ]
+
     # 7. Compile Response Payload
     response_payload = {
         "total_calls": total_calls,
@@ -198,7 +246,13 @@ async def get_overview(
         "unique_callers": unique_callers,
         "top_intents": top_intents,
         "calls_by_day": calls_by_day,
-        "campaign_stats": campaign_stats
+        "campaign_stats": campaign_stats,
+        "chat_stats": {
+            "total_sessions": total_sessions,
+            "active_sessions": active_sessions,
+            "avg_messages_per_session": avg_messages_per_session,
+            "top_chat_intents": top_chat_intents
+        }
     }
 
     # 8. Store in Redis Cache for 5 minutes (300 seconds)

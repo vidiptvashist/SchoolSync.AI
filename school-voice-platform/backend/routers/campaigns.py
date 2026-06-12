@@ -14,11 +14,10 @@ from schemas.campaign import CampaignCreate, CampaignOut
 from schemas.call_log import CallLogOut
 from models.call_log import CallLog
 from core.dependencies import get_current_user
-from services.exotel_service import ExotelService
+from services.campaign_service import campaign_service
 
 logger = logging.getLogger("campaigns_router")
 router = APIRouter(prefix="/campaigns", tags=["Campaigns"])
-exotel_service = ExotelService()
 
 # --- Helper to resolve target phone numbers ---
 
@@ -120,7 +119,7 @@ async def create_campaign(
             )
             
         background_tasks.add_task(
-            exotel_service.launch_bulk_campaign,
+            campaign_service.launch_bulk_campaign,
             phone_numbers=phone_numbers,
             audio_url=notice.audio_url,
             campaign_id=str(new_campaign.id),
@@ -235,7 +234,7 @@ async def launch_campaign(
         
     # 5. Dispatch background calling
     background_tasks.add_task(
-        exotel_service.launch_bulk_campaign,
+        campaign_service.launch_bulk_campaign,
         phone_numbers=phone_numbers,
         audio_url=notice.audio_url,
         campaign_id=str(campaign.id),

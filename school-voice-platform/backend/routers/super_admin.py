@@ -45,7 +45,7 @@ class LoginResponse(BaseModel):
 class SchoolCreateRequest(BaseModel):
     school_name: str
     city: Optional[str] = None
-    exotel_number: Optional[str] = None
+    school_phone: Optional[str] = None
     admin_email: EmailStr
     admin_name: Optional[str] = None
 
@@ -62,7 +62,7 @@ class SchoolOut(BaseModel):
     id: UUID
     name: str
     city: Optional[str] = None
-    exotel_number: Optional[str] = None
+    phone: Optional[str] = None
     is_active: bool
     created_at: datetime
 
@@ -106,7 +106,7 @@ class SchoolDetailResponse(SchoolOut):
 class SchoolUpdateRequest(BaseModel):
     name: Optional[str] = None
     city: Optional[str] = None
-    exotel_number: Optional[str] = None
+    phone: Optional[str] = None
 
 class SchoolStatusUpdateRequest(BaseModel):
     is_active: bool
@@ -227,7 +227,7 @@ async def get_schools(
             "id": school.id,
             "name": school.name,
             "city": school.city,
-            "exotel_number": school.exotel_number,
+            "phone": school.phone,
             "is_active": school.is_active,
             "created_at": school.created_at,
             "stats": stats
@@ -259,7 +259,7 @@ async def create_school(
         new_school = School(
             name=payload.school_name,
             city=payload.city,
-            exotel_number=payload.exotel_number,
+            phone=payload.school_phone,
             is_active=True
         )
         db.add(new_school)
@@ -358,7 +358,7 @@ async def get_school_detail(
         "id": school.id,
         "name": school.name,
         "city": school.city,
-        "exotel_number": school.exotel_number,
+        "phone": school.phone,
         "is_active": school.is_active,
         "created_at": school.created_at,
         "admins": admins,

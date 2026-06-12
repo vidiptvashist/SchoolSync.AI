@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 import os
-from routers import auth, students, notices, campaigns, webhooks, voice, knowledge_base, erp, analytics, super_admin, chat
+from routers import auth, students, notices, campaigns, voice, knowledge_base, erp, analytics, super_admin, chat, schools
 
 # Initialize the FastAPI App
 app = FastAPI(
@@ -51,13 +51,13 @@ app.include_router(auth.router)
 app.include_router(students.router)
 app.include_router(notices.router)
 app.include_router(campaigns.router)
-app.include_router(webhooks.router)
 app.include_router(voice.router)
 app.include_router(knowledge_base.router)
 app.include_router(erp.router)
 app.include_router(analytics.router)
 app.include_router(super_admin.router)
 app.include_router(chat.router)
+app.include_router(schools.router)
 
 # Ensure uploads directory exists and mount static files directory
 os.makedirs("uploads", exist_ok=True)

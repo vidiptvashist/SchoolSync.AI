@@ -51,6 +51,7 @@ class ChatSessionOut(BaseModel):
     id: UUID
     school_id: UUID
     parent_phone: str
+    parent_name: Optional[str] = None
     student_name: Optional[str] = None
     class_name: Optional[str] = None
     status: str
@@ -61,3 +62,30 @@ class ChatSessionOut(BaseModel):
 
     class Config:
         from_attributes = True
+
+class ActiveChatSessionOut(BaseModel):
+    id: UUID
+    parent_phone: str
+    parent_name: Optional[str] = None
+    student_name: Optional[str] = None
+    class_name: Optional[str] = None
+    message_count: int
+    last_message_content: Optional[str] = None
+    last_message_created_at: Optional[datetime] = None
+    started_at: datetime
+
+    class Config:
+        from_attributes = True
+
+class ChatMessageOut(BaseModel):
+    id: UUID
+    school_id: UUID
+    session_id: UUID
+    role: str
+    content: str
+    intent: Optional[str] = None
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+

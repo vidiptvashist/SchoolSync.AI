@@ -61,7 +61,7 @@ async def main():
         
         request = api.CreateSIPParticipantRequest(
             sip_trunk_id=trunk_id,
-            sip_number=phone_number,
+            sip_call_to=phone_number,
             room_name=room_name,
             participant_identity=f"phone_{phone_number}",
             participant_name="Parent",
@@ -69,7 +69,16 @@ async def main():
         )
         
         participant = await lkapi.sip.create_sip_participant(request)
-        print("\n[+] Call triggered successfully!")
+        
+        # Explicitly dispatch agent worker to the room
+        from livekit.protocol.agent_dispatch import CreateAgentDispatchRequest
+        dispatch_req = CreateAgentDispatchRequest(
+            agent_name="school-voice-agent",
+            room=room_name
+        )
+        await lkapi.agent_dispatch.create_dispatch(dispatch_req)
+        
+        print("\n[+] Call triggered and agent dispatched successfully!")
         print(f"    Room Name:   {room_name}")
         print(f"    Participant: {participant.participant_identity}")
         print("\nMake sure your local agent worker is running ('python voice_agent/agent.py start') to answer the call!")

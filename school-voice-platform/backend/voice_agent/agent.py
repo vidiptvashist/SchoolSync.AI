@@ -131,6 +131,59 @@ def get_school_notices(school_id: str) -> list[str]:
         return []
 
 
+def get_school_by_phone(phone: str) -> dict | None:
+    """Fetch school info by phone number or exotel_number from the database."""
+    try:
+        clean_input = phone.lstrip("+").lstrip("91").lstrip("0")
+        conn = psycopg2.connect(DATABASE_URL)
+        cur = conn.cursor()
+        cur.execute("SELECT id, name, phone, exotel_number FROM schools")
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
+        for row in rows:
+            s_id, s_name, s_phone, s_exotel = row
+            if s_exotel:
+                ex_num = s_exotel.lstrip("+").lstrip("91").lstrip("0")
+                if ex_num == clean_input or s_exotel == phone:
+                    return {"id": str(s_id), "name": s_name, "phone": s_phone}
+            if s_phone:
+                ph_num = s_phone.lstrip("+").lstrip("91").lstrip("0")
+                if ph_num == clean_input or s_phone == phone:
+                    return {"id": str(s_id), "name": s_name, "phone": s_phone}
+        return None
+    except Exception as e:
+        logger.error(f"Failed to fetch school by phone {phone}: {e}")
+        return None
+
+
+def lookup_parent_by_phone(school_id: str, phone: str) -> dict | None:
+    """Check if the caller's phone matches any parent's phone in the students table."""
+    try:
+        clean_input = phone.lstrip("+").lstrip("91").lstrip("0")
+        conn = psycopg2.connect(DATABASE_URL)
+        cur = conn.cursor()
+        cur.execute("SELECT id, name, parent_phone, parent_name, class_name, section FROM students WHERE school_id = %s", (school_id,))
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
+        for row in rows:
+            student_id, student_name, parent_phone, parent_name, class_name, section = row
+            if parent_phone:
+                st_phone = parent_phone.lstrip("+").lstrip("91").lstrip("0")
+                if st_phone == clean_input or parent_phone == phone:
+                    return {
+                        "student_id": str(student_id),
+                        "student_name": student_name,
+                        "parent_name": parent_name if parent_name else "Unknown Parent",
+                        "class_name": f"{class_name}-{section}" if (class_name and section) else (class_name or "N/A"),
+                    }
+        return None
+    except Exception as e:
+        logger.error(f"Failed to lookup parent by phone {phone}: {e}")
+        return None
+
+
 # ─────────────────────────── Redis Helpers ────────────────────
 
 
@@ -168,6 +221,112 @@ def cleanup_call_session(call_id: str) -> None:
         logger.info(f"Cleaned up call session: {call_id}")
     except Exception as e:
         logger.error(f"Failed to cleanup call session: {e}")
+
+
+def create_call_log(call_id: str, school_id: str, caller_phone: str, direction: str) -> None:
+    """Create a new CallLog row in PostgreSQL (synchronous)."""
+    try:
+        import uuid
+        conn = psycopg2.connect(DATABASE_URL)
+        cur = conn.cursor()
+        # Check if call log already exists to avoid duplicates
+        cur.execute("SELECT id FROM call_logs WHERE exotel_call_sid = %s", (call_id,))
+        row = cur.fetchone()
+        if not row:
+            # We insert a new CallLog with status 'in_progress' and direction 'inbound' or 'outbound'
+            cur.execute(
+                "INSERT INTO call_logs (id, school_id, caller_phone, direction, status, duration_seconds, exotel_call_sid, created_at) "
+                "VALUES (%s, %s, %s, %s, %s, %s, %s, NOW())",
+                (str(uuid.uuid4()), school_id, caller_phone, direction, "in_progress", 0, call_id)
+            )
+            conn.commit()
+            logger.info(f"Created PostgreSQL CallLog entry for call {call_id}")
+        cur.close()
+        conn.close()
+    except Exception as e:
+        logger.error(f"Failed to create call log in PostgreSQL: {e}")
+
+
+async def finalize_call_log(call_id: str, school_id: str, chat_ctx: llm.ChatContext) -> None:
+    """Calculate duration, generate AI summary, and finalize CallLog in PostgreSQL."""
+    try:
+        from datetime import datetime, timezone
+        
+        # 1. Format the transcript
+        transcript = []
+        for m in chat_ctx.messages:
+            if m.role == "system":
+                continue
+            role_name = "Parent" if m.role == "user" else "AI Assistant"
+            content = getattr(m, "text_content", "") or getattr(m, "content", "") or ""
+            if content:
+                # content can be a string, list, or other
+                if isinstance(content, list):
+                    content_str = " ".join([str(item) for item in content])
+                else:
+                    content_str = str(content)
+                transcript.append(f"{role_name}: {content_str}")
+        
+        transcript_str = "\n".join(transcript)
+        logger.info(f"Finalizing CallLog for {call_id}. Transcript messages: {len(transcript)}")
+
+        # 2. Retrieve session data from Redis to get start time
+        duration_seconds = 0
+        try:
+            r = get_redis_client()
+            raw = None
+            for key in call_session_keys(call_id):
+                raw = r.get(key)
+                if raw:
+                    break
+            if raw:
+                data = json.loads(raw)
+                started_at_str = data.get("started_at")
+                if started_at_str:
+                    started_at = datetime.fromisoformat(started_at_str)
+                    duration_seconds = int((datetime.now(timezone.utc) - started_at).total_seconds())
+                    duration_seconds = max(duration_seconds, 0)
+        except Exception as e:
+            logger.error(f"Failed to calculate duration for call {call_id}: {e}")
+
+        # 3. Generate summary using Gemini if there's any conversation
+        summary = "No conversation recorded."
+        if transcript:
+            try:
+                import google.generativeai as genai
+                genai.configure(api_key=GEMINI_API_KEY)
+                model = genai.GenerativeModel("gemini-2.5-flash")
+                prompt = f"""Summarize this school voice assistant call in ONE sentence (under 20 words).
+Focus on what the parent asked and what information was provided.
+
+Call transcript:
+{transcript_str}
+
+Summary:"""
+                # Run the blocking Gemini call in a thread
+                response = await asyncio.to_thread(model.generate_content, prompt)
+                summary = response.text.strip().strip('"')
+            except Exception as e:
+                logger.error(f"Failed to generate summary using Gemini: {e}")
+                summary = "Call answered."
+
+        # 4. Update the database entry
+        def _db_finalize():
+            conn = psycopg2.connect(DATABASE_URL)
+            cur = conn.cursor()
+            status = "answered" if transcript else "missed"
+            cur.execute(
+                "UPDATE call_logs SET status = %s, duration_seconds = %s, summary = %s WHERE exotel_call_sid = %s",
+                (status, duration_seconds, summary, call_id)
+            )
+            conn.commit()
+            cur.close()
+            conn.close()
+            logger.info(f"Finalized PostgreSQL CallLog for {call_id} (status={status}, duration={duration_seconds}s)")
+
+        await asyncio.to_thread(_db_finalize)
+    except Exception as e:
+        logger.error(f"Failed to finalize call log for call {call_id}: {e}")
 
 
 def get_redis_session(call_id: str) -> dict:
@@ -250,8 +409,10 @@ async def send_otp_sms(otp: int, phone: str) -> None:
     msg91_key = os.getenv("MSG91_AUTH_KEY")
     msg91_template = os.getenv("MSG91_TEMPLATE_ID")
     
-    clean_phone = phone.lstrip("+").lstrip("91")
-    logger.info(f"[SMS] Attempting to send OTP {otp} to {phone}")
+    # Strip prefixes like phone_, sip_, tel_ and spaces
+    phone_clean = re.sub(r"^(phone_|sip_|tel_)", "", phone).strip()
+    clean_phone = phone_clean.lstrip("+").lstrip("91").lstrip("0")
+    logger.info(f"[SMS] Attempting to send OTP {otp} to {phone} (cleaned: {clean_phone})")
     
     import httpx
     async with httpx.AsyncClient() as client:
@@ -290,7 +451,11 @@ async def send_otp_sms(otp: int, phone: str) -> None:
 # ─────────────────────────── Intent Classifier ────────────────
 async def classify_utterance_intent(utterance: str, school_name: str) -> str:
     try:
-        model = genai.GenerativeModel("gemini-2.5-flash")
+        from openai import AsyncOpenAI
+        client = AsyncOpenAI(
+            base_url="https://api.groq.com/openai/v1",
+            api_key=GROQ_API_KEY
+        )
         
         classify_prompt = f"""You are an intent classifier for a school receptionist voice call at {school_name}.
 Classify the following parent utterance into exactly one of these categories:
@@ -304,8 +469,13 @@ Utterance: "{utterance}"
 
 Respond with ONLY the category name. Do not include any other text or punctuation."""
 
-        response = await asyncio.to_thread(model.generate_content, classify_prompt)
-        intent = response.text.strip().lower()
+        response = await client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[{"role": "user", "content": classify_prompt}],
+            temperature=0.0,
+            max_tokens=15,
+        )
+        intent = response.choices[0].message.content.strip().lower()
         
         for option in ["general_faq", "attendance_query", "fee_query", "human_transfer", "unknown"]:
             if option in intent:
@@ -386,7 +556,10 @@ class SchoolVoiceAgentTools:
             return f"Error during verification: {str(e)}"
 
     @llm.function_tool(description="Get the student's attendance records for the current month. Caller must be authenticated first.")
-    async def get_attendance_status(self) -> str:
+    async def get_attendance_status(
+        self,
+        dummy: Annotated[str, Field(description="A dummy parameter. You can pass any value.", default="")] = ""
+    ) -> str:
         """Fetch attendance information for the verified student using the ERP adapter."""
         try:
             session_data = self._get_redis_session()
@@ -414,7 +587,10 @@ class SchoolVoiceAgentTools:
             return f"Error fetching attendance: {str(e)}"
 
     @llm.function_tool(description="Get the student's fee status, dues, and payment info. Caller must be authenticated first.")
-    async def get_fee_status(self) -> str:
+    async def get_fee_status(
+        self,
+        dummy: Annotated[str, Field(description="A dummy parameter. You can pass any value.", default="")] = ""
+    ) -> str:
         """Fetch fee status and balance details for the verified student using the ERP adapter."""
         try:
             session_data = self._get_redis_session()
@@ -453,6 +629,27 @@ class SchoolVoiceAgentTools:
             logger.error(f"Error in get_fee_status tool: {e}")
             return f"Error fetching fee status: {str(e)}"
 
+    @llm.function_tool(description="End the phone call. Use this when the user says goodbye or the conversation is over.")
+    async def end_call(
+        self,
+        dummy: Annotated[str, Field(description="A dummy parameter.", default="")] = ""
+    ) -> str:
+        """Disconnect the caller and end the phone call."""
+        logger.info(f"Agent requested to end call: {self.call_id}")
+        
+        async def _disconnect_call():
+            # Wait a few seconds to allow the final 'goodbye' to be spoken
+            await asyncio.sleep(3.0)
+            try:
+                from livekit import api
+                lkapi = api.LiveKitAPI()
+                await lkapi.room.delete_room(api.DeleteRoomRequest(room=self.call_id))
+                await lkapi.aclose()
+            except Exception as e:
+                logger.error(f"Failed to delete room: {e}")
+                
+        asyncio.create_task(_disconnect_call())
+        return "Ending the call now."
 
 # ─────────────────────── System Prompt Builder ────────────────
 def build_system_prompt(
@@ -480,6 +677,7 @@ CRITICAL RULES:
   Ask: "For security, can you tell me your child's roll number?"
   If they provide it, use the `verify_roll_number` tool to authenticate them.
   Only answer queries about attendance, fees, or results if the caller is Authenticated.
+- IMPORTANT: When the conversation is over or the caller says goodbye, you MUST call the `end_call` tool to hang up the phone.
 
 Caller Authentication Status: {auth_status}
 
@@ -741,45 +939,73 @@ async def entrypoint(ctx: JobContext):
     """
     logger.info(f"Agent entrypoint called for room: {ctx.room.name}")
 
-    # Try to extract school_id and auth status from room metadata
+    # Wait for a participant to connect
+    await ctx.connect(auto_subscribe=AutoSubscribe.AUDIO_ONLY)
+
+    participant = await ctx.wait_for_participant()
+    caller_identity = participant.identity or "unknown"
+    call_id = ctx.room.name
+
+    # Check for SIP specific attributes on the participant
+    sip_to = None
+    sip_from = None
+    if hasattr(participant, "attributes") and participant.attributes:
+        sip_to = participant.attributes.get("sip.to")
+        sip_from = participant.attributes.get("sip.phoneNumber")
+
+    # Extract clean phone number of the caller
+    caller_phone_raw = sip_from or caller_identity
+    clean_caller_phone = re.sub(r"^(phone_|sip_|tel_)", "", caller_phone_raw).strip()
+
+    # Determine school_id and school info
     school_id = None
     school = None
     authenticated = False
+    student_id = None
     student_name = None
+    parent_name = "Unknown Parent"
+    class_name = "N/A"
 
-    room_metadata = ctx.room.metadata
-    if room_metadata:
-        try:
-            meta = json.loads(room_metadata)
-            school_id = meta.get("school_id")
-            authenticated = meta.get("authenticated", False)
-            student_name = meta.get("student_name")
-        except (json.JSONDecodeError, TypeError):
-            pass
+    # Try lookup school by dialed number first
+    if sip_to:
+        school = get_school_by_phone(sip_to)
+        if school:
+            school_id = school["id"]
+            logger.info(f"SIP caller dialed {sip_to}. Resolved school: {school['name']}")
 
-    call_id = ctx.room.name
+    # Try to extract school_id and auth status from room metadata if not already found
+    if not school_id:
+        room_metadata = ctx.room.metadata
+        if room_metadata:
+            try:
+                meta = json.loads(room_metadata)
+                school_id = meta.get("school_id")
+                authenticated = meta.get("authenticated", False)
+                student_name = meta.get("student_name")
+            except (json.JSONDecodeError, TypeError):
+                pass
 
     # Check/fetch fallback from Redis session
-    try:
-        r = get_redis_client()
-        raw = None
-        for key in call_session_keys(call_id):
-            raw = r.get(key)
+    if not school_id:
+        try:
+            r = get_redis_client()
+            raw = None
+            for key in call_session_keys(call_id):
+                raw = r.get(key)
+                if raw:
+                    break
             if raw:
-                break
-        if raw:
-            data = json.loads(raw)
-            if not school_id:
+                data = json.loads(raw)
                 school_id = data.get("school_id")
-            if not authenticated:
-                authenticated = data.get("authenticated", False)
-            if not student_name:
-                student_name = data.get("student_name")
-    except Exception as e:
-        logger.error(f"Failed to fetch fallback from Redis: {e}")
+                if not authenticated:
+                    authenticated = data.get("authenticated", False)
+                if not student_name:
+                    student_name = data.get("student_name")
+        except Exception as e:
+            logger.error(f"Failed to fetch fallback from Redis: {e}")
 
-    # Fetch school from DB
-    if school_id:
+    # Fetch school details
+    if school_id and not school:
         school = get_school_info(school_id)
     if not school:
         school = get_default_school()
@@ -791,6 +1017,17 @@ async def entrypoint(ctx: JobContext):
     school_id = school["id"]
     school_name = school["name"]
 
+    # Auto-authenticate caller if they exist in student list for this school
+    if not authenticated and clean_caller_phone and clean_caller_phone != "unknown":
+        parent_info = lookup_parent_by_phone(school_id, clean_caller_phone)
+        if parent_info:
+            authenticated = True
+            student_id = parent_info["student_id"]
+            student_name = parent_info["student_name"]
+            parent_name = parent_info["parent_name"]
+            class_name = parent_info["class_name"]
+            logger.info(f"Auto-authenticated SIP caller {clean_caller_phone} as parent of {student_name}")
+
     # Get recent notices for context
     notices = get_school_notices(school_id)
 
@@ -798,24 +1035,30 @@ async def entrypoint(ctx: JobContext):
     school_info_str = f"- Phone: {school['phone'] or 'N/A'}"
 
     system_prompt = build_system_prompt(school_name, school_info_str, notices, authenticated, student_name)
-    logger.info(f"Agent configured for school: {school_name}")
+    logger.info(f"Agent configured for school: {school_name} (Authenticated: {authenticated})")
 
-    # Wait for a participant to connect
-    await ctx.connect(auto_subscribe=AutoSubscribe.AUDIO_ONLY)
-
-    participant = await ctx.wait_for_participant()
-    caller_identity = participant.identity or "unknown"
-
-    # Update session in Redis (using merge/update so we don't wipe out router data)
+    # Update/Write session in Redis (so database logger/routing/ERP tools can access it)
+    from datetime import datetime, timezone
+    started_at_str = datetime.now(timezone.utc).isoformat()
     update_redis_session(call_id, {
         "school_id": school_id,
+        "school_name": school_name,
+        "caller_phone": clean_caller_phone,
         "caller": caller_identity,
+        "parent_name": parent_name,
+        "class_name": class_name,
+        "authenticated": authenticated,
+        "student_id": student_id,
+        "student_name": student_name if student_name else "N/A",
+        "direction": "inbound",
         "status": "active",
+        "started_at": started_at_str,
     })
     logger.info(f"Call started: {call_id} from {caller_identity}")
+    create_call_log(call_id, school_id, clean_caller_phone, "inbound")
 
     # Create tools context
-    kb_tools = SchoolVoiceAgentTools(school_id, caller_phone=caller_identity, call_id=call_id)
+    kb_tools = SchoolVoiceAgentTools(school_id, caller_phone=clean_caller_phone, call_id=call_id)
 
     # Create the agent with all components
     agent = SchoolVoiceAgent(
@@ -846,6 +1089,7 @@ async def entrypoint(ctx: JobContext):
             kb_tools.verify_roll_number,
             kb_tools.get_attendance_status,
             kb_tools.get_fee_status,
+            kb_tools.end_call,
         ],
     )
 
@@ -856,6 +1100,8 @@ async def entrypoint(ctx: JobContext):
 
     @session.on("close")
     def on_close():
+        # Schedule the call summary and DB completion task
+        asyncio.create_task(finalize_call_log(call_id, school_id, agent.chat_ctx))
         cleanup_call_session(call_id)
         logger.info(f"Call ended: {call_id}")
 
@@ -866,6 +1112,11 @@ async def entrypoint(ctx: JobContext):
     )
 
     logger.info(f"Voice agent session started for {school_name}")
+    
+    # Sleep to allow SIP RTP to stabilize before speaking
+    import asyncio
+    await asyncio.sleep(1.2)
+    
     welcome_text = f"Hello, welcome to {school_name}. How can I help you today?"
     session.say(welcome_text, add_to_chat_ctx=True)
 

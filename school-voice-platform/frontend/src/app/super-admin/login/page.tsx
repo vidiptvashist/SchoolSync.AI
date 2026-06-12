@@ -43,25 +43,34 @@ export default function SuperAdminLogin() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#0f172a] px-4">
-      <div className="w-full max-w-md animate-fadeIn duration-300">
+    <div className="flex min-h-screen items-center justify-center bg-[#0b0f19] px-4 relative overflow-hidden font-sans">
+      {/* Sleek dark-mesh grid background */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] -z-10 opacity-20"></div>
+      
+      {/* Dynamic ambient color glowing blobs in amber */}
+      <div className="absolute -top-[15%] -left-[5%] w-[380px] h-[380px] rounded-full blur-[130px] opacity-[0.12] -z-10 bg-amber-500"></div>
+      <div className="absolute -bottom-[15%] -right-[5%] w-[320px] h-[320px] rounded-full blur-[110px] opacity-[0.1] -z-10 bg-amber-600"></div>
+
+      <div className="w-full max-w-md animate-in fade-in slide-in-from-bottom-4 duration-300">
         
         {/* Decorative Header Icon */}
         <div className="flex flex-col items-center mb-6">
-          <div className="p-4 bg-amber-500/10 border-2 border-amber-500/20 rounded-2xl text-amber-500 mb-3 shadow-lg shadow-amber-500/5">
-            <Shield className="h-10 w-10 animate-pulse" />
+          <div className="p-3.5 bg-amber-500/10 border border-amber-500/25 rounded-2xl text-amber-500 mb-3 shadow-lg shadow-amber-500/5 animate-pulse">
+            <Shield className="h-8 w-8" />
           </div>
-          <h1 className="text-xl font-bold tracking-tight text-white uppercase text-center">SchoolVoice Console</h1>
-          <p className="text-xs text-slate-500 font-bold tracking-wider mt-1">Authorized Access Only</p>
+          <h1 className="text-xl font-bold tracking-wider text-white uppercase text-center bg-gradient-to-r from-amber-200 via-white to-amber-200 bg-clip-text text-transparent">
+            SchoolSync Console
+          </h1>
+          <p className="text-[10px] text-slate-500 font-extrabold tracking-widest mt-1 uppercase">Authorized Access Only</p>
         </div>
 
-        <Card className="bg-[#1e293b] border-slate-800 shadow-2xl relative overflow-hidden">
+        <Card className="bg-slate-900/60 backdrop-blur-lg border border-slate-800/80 shadow-[0_30px_70px_rgba(0,0,0,0.5)] rounded-3xl relative overflow-hidden">
           {/* Subtle top accent bar */}
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 via-amber-600 to-amber-700"></div>
           
           <CardHeader className="space-y-1.5 pt-7">
-            <CardTitle className="text-lg font-bold text-slate-100 text-center uppercase tracking-wide">
-              SchoolVoice Platform Admin
+            <CardTitle className="text-md font-bold text-slate-100 text-center uppercase tracking-wider">
+              SchoolSync.AI Platform Admin
             </CardTitle>
             <CardDescription className="text-xs text-slate-400 text-center font-medium">
               Provide credentials to establish a secure administrative session
@@ -73,17 +82,17 @@ export default function SuperAdminLogin() {
               
               {/* Email Input */}
               <div className="space-y-1.5">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-0.5">
                   Admin Email Address
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-3.5 top-3.5 h-4.5 w-4.5 text-slate-500" />
+                  <Mail className="absolute left-3.5 top-3.5 h-4 w-4 text-slate-500" />
                   <Input
                     type="email"
                     placeholder="admin@example.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="pl-11 bg-slate-900 border-slate-800 text-slate-100 placeholder-slate-600 focus-visible:ring-amber-500 h-11 text-sm rounded-lg"
+                    className="pl-11 bg-slate-950 border-slate-800/80 text-slate-100 placeholder-slate-650 focus-visible:ring-amber-500/30 focus-visible:border-amber-500 h-11 text-sm rounded-xl font-medium"
                     required
                   />
                 </div>
@@ -91,17 +100,17 @@ export default function SuperAdminLogin() {
 
               {/* Password Input */}
               <div className="space-y-1.5">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-0.5">
                   Admin Password
                 </label>
                 <div className="relative">
-                  <Lock className="absolute left-3.5 top-3.5 h-4.5 w-4.5 text-slate-500" />
+                  <Lock className="absolute left-3.5 top-3.5 h-4 w-4 text-slate-500" />
                   <Input
                     type="password"
                     placeholder="••••••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="pl-11 bg-slate-900 border-slate-800 text-slate-100 placeholder-slate-600 focus-visible:ring-amber-500 h-11 text-sm rounded-lg"
+                    className="pl-11 bg-slate-950 border-slate-800/80 text-slate-100 placeholder-slate-650 focus-visible:ring-amber-500/30 focus-visible:border-amber-500 h-11 text-sm rounded-xl font-medium"
                     required
                   />
                 </div>
@@ -111,7 +120,7 @@ export default function SuperAdminLogin() {
               <Button
                 type="submit"
                 disabled={loading}
-                className="w-full h-11 mt-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-bold text-sm tracking-wide rounded-lg transition-all shadow-md shadow-amber-500/10 active:scale-98"
+                className="w-full h-11 mt-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-500 text-slate-950 font-bold text-sm tracking-wide rounded-xl transition-all shadow-lg shadow-amber-500/10 active:scale-98 disabled:opacity-50 cursor-pointer border-none"
               >
                 {loading ? (
                   <span className="flex items-center justify-center gap-2">
@@ -128,7 +137,7 @@ export default function SuperAdminLogin() {
         </Card>
         
         {/* Footer Warning */}
-        <p className="text-[10px] text-center text-slate-600 font-bold tracking-wide mt-6 leading-relaxed max-w-sm mx-auto uppercase">
+        <p className="text-[9px] text-center text-slate-600 font-bold tracking-widest mt-6 leading-relaxed max-w-xs mx-auto uppercase">
           Warning: Unauthorised connection attempts or attempts to bypass access logs are prohibited and monitored.
         </p>
 
