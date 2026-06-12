@@ -1,15 +1,29 @@
-# Python virtual environments
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
 .venv/
 venv/
+ENV/
 env/
 .env
 
-# System files
+# Node.js
+node_modules/
+.next/
+out/
+build/
+dist/
+
+# IDEs & System
 .DS_Store
+.vscode/
+.idea/
+Thumbs.db
 
 # Audio caches and uploads
 *.pcm
 *.wav
 *.mp3
-school-voice-platform/backend/uploads/
-school-voice-platform/backend/voice_agent/tts_cache/
+backend/uploads/
+backend/voice_agent/tts_cache/
