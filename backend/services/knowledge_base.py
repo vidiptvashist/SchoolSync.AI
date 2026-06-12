@@ -115,6 +115,40 @@ class KnowledgeBaseService:
                 paragraphs.append(text)
         return "\n\n".join(paragraphs)
 
+    @staticmethod
+    def _extract_text_csv(file_bytes: bytes) -> str:
+        """Extract text from a CSV file using pandas."""
+        import pandas as pd
+        df = pd.read_csv(io.BytesIO(file_bytes))
+        return df.to_csv(index=False)
+
+    @staticmethod
+    def _extract_text_excel(file_bytes: bytes) -> str:
+        """Extract text from an Excel file (.xlsx or .xls) using pandas."""
+        import pandas as pd
+        # Read all sheets and concatenate their contents
+        try:
+            excel_file = pd.ExcelFile(io.BytesIO(file_bytes))
+            sheets_text = []
+            for sheet_name in excel_file.sheet_names:
+                df = pd.read_excel(excel_file, sheet_name=sheet_name)
+                sheets_text.append(f"Sheet: {sheet_name}\n" + df.to_csv(index=False))
+            return "\n\n".join(sheets_text)
+        except Exception:
+            df = pd.read_excel(io.BytesIO(file_bytes))
+            return df.to_csv(index=False)
+
+    @staticmethod
+    def _extract_text_plain(file_bytes: bytes) -> str:
+        """Extract text from plain text formats with encoding fallback."""
+        try:
+            return file_bytes.decode("utf-8")
+        except UnicodeDecodeError:
+            try:
+                return file_bytes.decode("latin-1")
+            except Exception as e:
+                raise ValueError(f"Failed to decode text file: {e}")
+
     # ─────────────── Chunking ───────────────
 
     @staticmethod
@@ -172,9 +206,9 @@ class KnowledgeBaseService:
         doc_id: str,
     ) -> int:
         """
-        Ingest a PDF or DOCX document into the Qdrant knowledge base.
+        Ingest a document of any supported format into the Qdrant knowledge base.
 
-        1. Extract text from PDF or DOCX
+        1. Extract text from the file (PDF, DOCX, CSV, Excel, TXT, MD, etc.)
         2. Split into ~400-word chunks with 50-word overlap
         3. Generate embeddings with Gemini
         4. Store in Qdrant with school_id + doc_id payload
@@ -188,8 +222,13 @@ class KnowledgeBaseService:
             text = self._extract_text_pdf(file_bytes)
         elif lower.endswith(".docx"):
             text = self._extract_text_docx(file_bytes)
+        elif lower.endswith(".csv"):
+            text = self._extract_text_csv(file_bytes)
+        elif lower.endswith((".xlsx", ".xls")):
+            text = self._extract_text_excel(file_bytes)
         else:
-            raise ValueError(f"Unsupported file type: {filename}")
+            # Fallback text decoding for txt, md, json, html, rtf, etc.
+            text = self._extract_text_plain(file_bytes)
 
         if not text.strip():
             raise ValueError("No text could be extracted from the document")

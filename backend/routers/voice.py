@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, Request
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from sqlalchemy import select, update
 from typing import List, Optional
 import json
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 import logging
 
 from database import get_db
@@ -98,6 +98,37 @@ async def get_live_calls(current_user: User = Depends(get_current_user)):
     )
     return active_calls
 
+async def auto_finalize_stale_calls(school_id, db: AsyncSession) -> None:
+    """
+    Find call logs in the 'in_progress' state for more than 10 minutes
+    and finalize them as 'missed' so they appear in UI call history.
+    """
+    if not school_id:
+        return
+        
+    now_utc = datetime.now(timezone.utc)
+    stale_threshold = timedelta(minutes=10)
+    threshold_time = now_utc - stale_threshold
+    
+    try:
+        stmt = (
+            update(CallLog)
+            .where(
+                CallLog.school_id == school_id,
+                CallLog.status == "in_progress",
+                CallLog.created_at < threshold_time
+            )
+            .values(
+                status="missed",
+                duration_seconds=0,
+                summary="Call terminated without finalization."
+            )
+        )
+        await db.execute(stmt)
+        await db.commit()
+    except Exception as e:
+        logger.error(f"Failed to auto-finalize stale calls: {e}")
+
 @router.get("/calls/recent")
 async def get_recent_calls(
     current_user: User = Depends(get_current_user), 
@@ -109,6 +140,9 @@ async def get_recent_calls(
     Query call_logs table: WHERE school_id = ? ORDER BY created_at DESC LIMIT 20
     Returns completed calls with parent_name, student_name, etc.
     """
+    if current_user.school_id:
+        await auto_finalize_stale_calls(current_user.school_id, db)
+
     limit = min(max(limit, 1), 100)
     skip = max(skip, 0)
 

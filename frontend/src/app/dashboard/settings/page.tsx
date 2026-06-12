@@ -34,7 +34,7 @@ export default function SettingsPage() {
   // Form states
   const [name, setName] = useState("");
   const [city, setCity] = useState("");
-  const [primaryColor, setPrimaryColor] = useState("#1e40af");
+  const [primaryColor, setPrimaryColor] = useState("#f59e0b"); // Standard Amber/Yellow
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
 
@@ -48,7 +48,7 @@ export default function SettingsPage() {
       setSchool(res.data);
       setName(res.data.name || "");
       setCity(res.data.city || "");
-      setPrimaryColor(res.data.primary_color || "#1e40af");
+      setPrimaryColor(res.data.primary_color || "#f59e0b");
       
       // If logo exists on backend, set the preview
       if (res.data.logo_url) {
@@ -203,43 +203,43 @@ export default function SettingsPage() {
     return (
       <div className="flex h-[400px] w-full items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <RefreshCw className="h-8 w-8 animate-spin text-indigo-600" />
-          <p className="text-sm font-semibold text-slate-500">Loading configurations...</p>
+          <RefreshCw className="h-8 w-8 animate-spin text-amber-500" />
+          <p className="text-sm font-semibold text-slate-500 dark:text-slate-400 font-mono">Loading configurations...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8 animate-fadeIn duration-200">
+    <div className="max-w-5xl mx-auto space-y-6 animate-fadeIn duration-200">
       
       {/* Header Banner */}
       <div>
-        <h2 className="text-2xl font-bold tracking-tight text-slate-900">Settings</h2>
-        <p className="text-sm text-slate-500">
+        <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">Settings</h2>
+        <p className="text-sm text-slate-500 dark:text-slate-400 font-medium mt-1">
           Configure profile details, custom branding variables, and parent assistant entry points.
         </p>
       </div>
 
       <Tabs defaultValue="profile" className="w-full space-y-6">
-        <TabsList className="bg-slate-100 p-1 rounded-xl w-fit flex gap-1 border border-slate-200">
+        <TabsList className="bg-slate-100 dark:bg-slate-900/60 p-1 rounded-xl w-fit flex gap-1 border border-slate-200 dark:border-slate-800">
           <TabsTrigger 
             value="profile"
-            className="px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-150 data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm text-slate-600 hover:text-slate-900"
+            className="px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-150 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:text-amber-600 dark:data-[state=active]:text-amber-400 data-[state=active]:shadow-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white cursor-pointer"
           >
             <Building className="h-4 w-4 mr-2 inline" />
             School Profile
           </TabsTrigger>
           <TabsTrigger 
             value="branding"
-            className="px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-150 data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm text-slate-600 hover:text-slate-900"
+            className="px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-150 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:text-amber-600 dark:data-[state=active]:text-amber-400 data-[state=active]:shadow-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white cursor-pointer"
           >
             <Palette className="h-4 w-4 mr-2 inline" />
             Chat Branding
           </TabsTrigger>
           <TabsTrigger 
             value="link"
-            className="px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-150 data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm text-slate-600 hover:text-slate-900"
+            className="px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-150 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:text-amber-600 dark:data-[state=active]:text-amber-400 data-[state=active]:shadow-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white cursor-pointer"
           >
             <LinkIcon className="h-4 w-4 mr-2 inline" />
             Parent Chat Link
@@ -248,51 +248,51 @@ export default function SettingsPage() {
 
         {/* School Profile Tab */}
         <TabsContent value="profile" className="outline-none">
-          <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 sm:p-8">
-            <h3 className="text-lg font-bold text-slate-800 border-b border-slate-100 pb-3 mb-6">
+          <div className="glass-panel border-slate-200 dark:border-slate-800/80 rounded-2xl shadow-md p-6 sm:p-8">
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-3 mb-6 uppercase tracking-wider">
               School Profile Configuration
             </h3>
             
             <form onSubmit={handleProfileSubmit} className="space-y-6 max-w-xl">
               <div className="space-y-2">
-                <Label htmlFor="school-name" className="text-slate-700 font-semibold text-xs uppercase tracking-wider">
+                <Label htmlFor="school-name" className="text-slate-700 dark:text-slate-350 font-semibold text-xs uppercase tracking-wider pl-0.5">
                   School Name
                 </Label>
                 <div className="relative">
-                  <Building className="absolute left-3.5 top-2.5 h-4.5 w-4.5 text-slate-400" />
+                  <Building className="absolute left-3.5 top-3 h-4.5 w-4.5 text-slate-400" />
                   <Input
                     id="school-name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Enter school name"
-                    className="pl-11 h-11 border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white"
+                    className="pl-11 h-11 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-600 focus-visible:ring-amber-500"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="school-city" className="text-slate-700 font-semibold text-xs uppercase tracking-wider">
+                <Label htmlFor="school-city" className="text-slate-700 dark:text-slate-350 font-semibold text-xs uppercase tracking-wider pl-0.5">
                   City
                 </Label>
                 <div className="relative">
-                  <MapPin className="absolute left-3.5 top-2.5 h-4.5 w-4.5 text-slate-400" />
+                  <MapPin className="absolute left-3.5 top-3 h-4.5 w-4.5 text-slate-400" />
                   <Input
                     id="school-city"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                     placeholder="Enter city"
-                    className="pl-11 h-11 border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white"
+                    className="pl-11 h-11 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-600 focus-visible:ring-amber-500"
                   />
                 </div>
               </div>
 
               {/* Read only info fields */}
-              <div className="pt-4 border-t border-slate-100 bg-slate-50/50 p-4 rounded-xl">
+              <div className="pt-4 border-t border-slate-150 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/45 p-4 rounded-xl">
                 <div>
-                  <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">
+                  <span className="text-slate-500 dark:text-slate-400 text-[10px] font-bold uppercase tracking-wider">
                     Contact Phone
                   </span>
-                  <p className="text-sm font-semibold text-slate-700 mt-0.5">
+                  <p className="text-sm font-bold text-slate-800 dark:text-slate-200 mt-0.5 font-mono">
                     {school?.phone || "None Configured"}
                   </p>
                 </div>
@@ -302,7 +302,7 @@ export default function SettingsPage() {
                 <Button 
                   type="submit" 
                   disabled={savingProfile}
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-2.5 rounded-xl h-11 shadow-sm transition-all duration-150"
+                  className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold px-6 py-2.5 rounded-xl h-11 shadow-md transition-all duration-150 cursor-pointer"
                 >
                   {savingProfile ? "Saving Profile..." : "Save Profile Details"}
                 </Button>
@@ -313,8 +313,8 @@ export default function SettingsPage() {
 
         {/* Chat Branding Tab */}
         <TabsContent value="branding" className="outline-none">
-          <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 sm:p-8">
-            <h3 className="text-lg font-bold text-slate-800 border-b border-slate-100 pb-3 mb-6">
+          <div className="glass-panel border-slate-200 dark:border-slate-800/80 rounded-2xl shadow-md p-6 sm:p-8">
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white border-b border-slate-150 dark:border-slate-800 pb-3 mb-6 uppercase tracking-wider">
               Chat Widget Customisation
             </h3>
             
@@ -326,7 +326,7 @@ export default function SettingsPage() {
                 {/* Primary Color Picker */}
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <Label className="text-slate-700 font-semibold text-xs uppercase tracking-wider">
+                    <Label className="text-slate-700 dark:text-slate-350 font-semibold text-xs uppercase tracking-wider pl-0.5">
                       Primary Brand Color
                     </Label>
                     <span className="text-xs font-mono font-bold text-slate-400 select-all">
@@ -338,31 +338,31 @@ export default function SettingsPage() {
                       type="color"
                       value={primaryColor}
                       onChange={(e) => setPrimaryColor(e.target.value)}
-                      className="h-12 w-14 rounded-xl border border-slate-200 cursor-pointer p-0.5 bg-white shadow-sm flex-shrink-0"
+                      className="h-12 w-14 rounded-xl border border-slate-200 dark:border-slate-800 cursor-pointer p-0.5 bg-white dark:bg-slate-950 shadow-sm flex-shrink-0"
                     />
                     <Input
                       type="text"
                       value={primaryColor}
                       onChange={(e) => setPrimaryColor(e.target.value)}
-                      placeholder="#1e40af"
+                      placeholder="#f59e0b"
                       maxLength={9}
-                      className="h-11 border-slate-200 bg-white font-mono"
+                      className="h-11 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-200 placeholder-slate-450 dark:placeholder-slate-650 font-mono"
                     />
                   </div>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-slate-500 dark:text-slate-455 font-medium leading-relaxed">
                     This color will brand the header, primary buttons, user bubbles, and accents inside the parent widget.
                   </p>
                 </div>
 
                 {/* Logo Image Upload */}
                 <div className="space-y-3">
-                  <Label className="text-slate-700 font-semibold text-xs uppercase tracking-wider">
+                  <Label className="text-slate-700 dark:text-slate-350 font-semibold text-xs uppercase tracking-wider pl-0.5">
                     School Logo
                   </Label>
                   
-                  <div className="flex flex-col sm:flex-row items-center gap-4 p-4 border border-dashed border-slate-200 rounded-xl bg-slate-50/50">
+                  <div className="flex flex-col sm:flex-row items-center gap-4 p-4 border border-dashed border-slate-200 dark:border-slate-800 rounded-xl bg-slate-50/50 dark:bg-slate-950/45">
                     {/* Logo Circle Preview */}
-                    <div className="h-16 w-16 rounded-full border border-slate-200 bg-white flex items-center justify-center overflow-hidden flex-shrink-0">
+                    <div className="h-16 w-16 rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 flex items-center justify-center overflow-hidden flex-shrink-0">
                       {logoPreview ? (
                         <img 
                           src={logoPreview} 
@@ -384,7 +384,7 @@ export default function SettingsPage() {
                         type="button"
                         onClick={() => fileInputRef.current?.click()}
                         variant="outline"
-                        className="border-slate-300 text-slate-700 h-10 w-full sm:w-auto hover:bg-white transition-all"
+                        className="border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 h-10 w-full sm:w-auto hover:bg-slate-50 dark:hover:bg-slate-900 transition-all cursor-pointer"
                       >
                         <Upload className="h-4 w-4 mr-2" />
                         Choose Logo Image
@@ -396,18 +396,18 @@ export default function SettingsPage() {
                         accept="image/png, image/jpeg, image/jpg"
                         className="hidden"
                       />
-                      <p className="text-[11px] text-slate-400 mt-2 font-medium">
+                      <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-2 font-semibold">
                         Supported: PNG, JPG, JPEG (Max size: 500KB)
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-slate-100">
+                <div className="pt-4 border-t border-slate-150 dark:border-slate-805">
                   <Button 
                     type="submit" 
                     disabled={savingBranding}
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-2.5 rounded-xl h-11 shadow-sm transition-all duration-150"
+                    className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold px-6 py-2.5 rounded-xl h-11 shadow-md transition-all duration-150 cursor-pointer"
                   >
                     {savingBranding ? "Saving Branding..." : "Save Branding Options"}
                   </Button>
@@ -417,7 +417,7 @@ export default function SettingsPage() {
 
               {/* Visual Widget Preview section */}
               <div className="lg:col-span-5 flex flex-col items-center">
-                <div className="w-full max-w-[320px] rounded-2xl border border-slate-200 bg-slate-50 shadow-md overflow-hidden font-sans">
+                <div className="w-full max-w-[320px] rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/70 shadow-lg overflow-hidden font-sans">
                   
                   {/* Chat Widget Header */}
                   <div 
@@ -448,7 +448,7 @@ export default function SettingsPage() {
                   </div>
 
                   {/* Chat Widget Conversation Area */}
-                  <div className="p-4 space-y-4 min-h-[220px] bg-slate-50 text-xs">
+                  <div className="p-4 space-y-4 min-h-[220px] bg-slate-50 dark:bg-slate-950/45 text-xs">
                     
                     {/* Bot Greeting Bubble */}
                     <div className="flex items-start gap-2 max-w-[85%]">
@@ -458,7 +458,7 @@ export default function SettingsPage() {
                       >
                         {getInitials(name)}
                       </div>
-                      <div className="bg-white border border-slate-100 text-slate-800 p-2.5 rounded-2xl rounded-tl-none shadow-sm font-medium">
+                      <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 p-2.5 rounded-2xl rounded-tl-none shadow-sm font-medium">
                         Hi! I'm your assistant for {name || "Your School"}. How can I help you today?
                       </div>
                     </div>
@@ -481,7 +481,7 @@ export default function SettingsPage() {
                       >
                         {getInitials(name)}
                       </div>
-                      <div className="bg-white border border-slate-100 p-2.5 rounded-2xl rounded-tl-none shadow-sm flex items-center gap-1.5 py-3">
+                      <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-2.5 rounded-2xl rounded-tl-none shadow-sm flex items-center gap-1.5 py-3">
                         <span className="h-1.5 w-1.5 bg-slate-400 rounded-full animate-bounce"></span>
                         <span className="h-1.5 w-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:0.2s]"></span>
                         <span className="h-1.5 w-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:0.4s]"></span>
@@ -491,8 +491,8 @@ export default function SettingsPage() {
                   </div>
 
                   {/* Chat Widget Footer Input Bar */}
-                  <div className="p-3 border-t border-slate-200/60 bg-white flex items-center gap-2">
-                    <div className="flex-1 bg-slate-100 rounded-full h-8 px-3 text-[10px] text-slate-400 flex items-center font-medium border border-slate-100">
+                  <div className="p-3 border-t border-slate-200/60 dark:border-slate-800/80 bg-white dark:bg-slate-900 flex items-center gap-2">
+                    <div className="flex-1 bg-slate-100 dark:bg-slate-950 rounded-full h-8 px-3 text-[10px] text-slate-400 dark:text-slate-600 flex items-center font-medium border border-slate-100 dark:border-slate-850">
                       Type your query here...
                     </div>
                     <div 
@@ -504,7 +504,7 @@ export default function SettingsPage() {
                   </div>
 
                 </div>
-                <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider mt-4">
+                <span className="text-slate-500 dark:text-slate-400 text-[10px] font-bold uppercase tracking-wider mt-4">
                   Widget Visual Preview
                 </span>
               </div>
@@ -515,8 +515,8 @@ export default function SettingsPage() {
 
         {/* Parent Chat Link Tab */}
         <TabsContent value="link" className="outline-none">
-          <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 sm:p-8">
-            <h3 className="text-lg font-bold text-slate-800 border-b border-slate-100 pb-3 mb-6">
+          <div className="glass-panel border-slate-200 dark:border-slate-800/80 rounded-2xl shadow-md p-6 sm:p-8">
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white border-b border-slate-150 dark:border-slate-800 pb-3 mb-6 uppercase tracking-wider">
               Parent Portal Shareable Links
             </h3>
             
@@ -526,7 +526,7 @@ export default function SettingsPage() {
               <div className="md:col-span-7 space-y-6">
                 
                 <div className="space-y-2">
-                  <Label className="text-slate-700 font-semibold text-xs uppercase tracking-wider">
+                  <Label className="text-slate-700 dark:text-slate-350 font-semibold text-xs uppercase tracking-wider pl-0.5">
                     Shareable Chat URL
                   </Label>
                   
@@ -536,12 +536,12 @@ export default function SettingsPage() {
                       value={chatUrl}
                       readOnly
                       onClick={(e) => (e.target as HTMLInputElement).select()}
-                      className="h-11 border-slate-200 bg-slate-50 font-mono text-xs select-all text-slate-600 flex-1 cursor-default"
+                      className="h-11 border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 font-mono text-xs select-all text-slate-600 dark:text-slate-400 flex-1 cursor-default"
                     />
                     <Button
                       type="button"
                       onClick={copyLinkToClipboard}
-                      className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold h-11 px-4 rounded-xl flex-shrink-0"
+                      className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold h-11 px-4 rounded-xl flex-shrink-0 cursor-pointer animate-fadeIn duration-100"
                     >
                       <Copy className="h-4.5 w-4.5" />
                     </Button>
@@ -549,22 +549,22 @@ export default function SettingsPage() {
                       type="button"
                       variant="outline"
                       onClick={openPreview}
-                      className="border-slate-200 hover:bg-slate-50 font-semibold h-11 px-4 rounded-xl text-slate-700 flex-shrink-0"
+                      className="border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900 font-semibold h-11 px-4 rounded-xl text-slate-700 dark:text-slate-300 flex-shrink-0 cursor-pointer"
                     >
                       <ExternalLink className="h-4.5 w-4.5" />
                     </Button>
                   </div>
                 </div>
 
-                <div className="bg-slate-50 border border-slate-200/50 rounded-xl p-4 text-xs space-y-2.5 text-slate-600">
-                  <div className="flex gap-2 items-start font-medium text-slate-700">
-                    <HelpCircle className="h-4 w-4 text-indigo-600 flex-shrink-0 mt-0.5" />
+                <div className="bg-slate-50 dark:bg-slate-950 border border-slate-250/50 dark:border-slate-800/80 rounded-xl p-4 text-xs space-y-2.5 text-slate-600 dark:text-slate-400">
+                  <div className="flex gap-2 items-start font-bold text-slate-800 dark:text-slate-200">
+                    <HelpCircle className="h-4 w-4 text-amber-500 dark:text-amber-400 flex-shrink-0 mt-0.5" />
                     <span>How should I share this link?</span>
                   </div>
-                  <p className="leading-relaxed">
+                  <p className="leading-relaxed font-medium">
                     Share this link with parents via WhatsApp broadcast messages, embed it as a button in your custom parent mobile app, or copy it directly onto school circulars.
                   </p>
-                  <p className="leading-relaxed">
+                  <p className="leading-relaxed font-medium">
                     Parents who open this link can sign in securely using their phone numbers and a one-time SMS password (OTP). There is no app installation required.
                   </p>
                 </div>
@@ -572,9 +572,9 @@ export default function SettingsPage() {
               </div>
 
               {/* QR Code generator */}
-              <div className="md:col-span-5 flex flex-col items-center justify-center p-6 border border-slate-100 bg-slate-50/50 rounded-2xl">
+              <div className="md:col-span-5 flex flex-col items-center justify-center p-6 border border-slate-150 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/45 rounded-2xl">
                 
-                <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-200">
+                <div className="bg-white dark:bg-slate-900 p-3 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
                   {school?.id ? (
                     <QRCodeCanvas
                       id="parent-chat-qr"
@@ -584,7 +584,7 @@ export default function SettingsPage() {
                       includeMargin={true}
                     />
                   ) : (
-                    <div className="h-40 w-40 flex items-center justify-center bg-slate-100 text-slate-400 text-xs font-semibold">
+                    <div className="h-40 w-40 flex items-center justify-center bg-slate-100 dark:bg-slate-900 text-slate-400 dark:text-slate-500 text-xs font-semibold">
                       Generating QR...
                     </div>
                   )}
@@ -593,18 +593,19 @@ export default function SettingsPage() {
                 <Button
                   type="button"
                   onClick={downloadQRCode}
-                  className="mt-5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-semibold h-10 px-5 rounded-xl shadow-sm text-xs"
+                  className="mt-5 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-350 border border-slate-200 dark:border-slate-800 font-semibold h-10 px-5 rounded-xl shadow-sm text-xs cursor-pointer"
                 >
-                  <Download className="h-4 w-4 mr-2 text-indigo-600" />
+                  <Download className="h-4 w-4 mr-2 text-amber-550 dark:text-amber-400" />
                   Download QR Code
                 </Button>
 
-                <p className="text-[10px] text-slate-400 text-center mt-3 max-w-[200px]">
+                <p className="text-[10px] text-slate-500 dark:text-slate-400 text-center mt-3 max-w-[200px] font-semibold leading-relaxed">
                   Download this QR code image to print on school flyers, banners, or report cards.
                 </p>
 
               </div>
 
+              {/* End of layout */}
             </div>
           </div>
         </TabsContent>
