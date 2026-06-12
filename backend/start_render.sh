@@ -3,6 +3,10 @@
 # Run database migrations
 alembic upgrade head
 
+# Seed the database with default accounts (admin & superadmin)
+python seed.py
+python seed_erp.py
+
 # Start the LiveKit Voice Agent in the background
 python voice_agent/agent.py start &
 
