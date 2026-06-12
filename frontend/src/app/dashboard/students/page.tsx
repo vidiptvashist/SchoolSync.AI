@@ -144,16 +144,16 @@ export default function StudentsPage() {
       {/* Title Header with Buttons */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl font-extrabold tracking-tight text-white">Student Directory</h2>
-          <p className="text-sm text-slate-400 font-medium mt-1">
-            Manage your school's student contacts, classes, and parent details
+          <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">Student Directory</h2>
+          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium mt-1">
+            Manage your school&apos;s student contacts, classes, and parent details
           </p>
         </div>
         <div className="flex items-center gap-2">
           <Button
             onClick={handleDownloadTemplate}
             variant="outline"
-            className="border-slate-850 text-slate-300 hover:bg-slate-900/60 hover:text-white transition-all duration-150 shadow-md"
+            className="border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-900/60 hover:text-slate-900 dark:hover:text-white transition-all duration-150 shadow-sm"
           >
             Download Template
           </Button>
@@ -167,48 +167,48 @@ export default function StudentsPage() {
       </div>
 
       {/* Directory Table Area */}
-      <div className="glass-panel rounded-2xl shadow-xl overflow-hidden border border-slate-800/80">
+      <div className="glass-panel rounded-2xl shadow-xl overflow-hidden">
         
         {/* Search Input Bar */}
-        <div className="p-5 border-b border-slate-800/80 bg-slate-950/20">
+        <div className="p-5 border-b border-slate-200 dark:border-slate-700">
           <div className="max-w-md">
             <Input
               type="text"
               placeholder="Search by student name or parent phone..."
               value={search}
               onChange={handleSearchChange}
-              className="bg-slate-950 border-slate-800 text-slate-200 placeholder-slate-600 focus-visible:ring-amber-500 text-sm shadow-inner"
+              className="bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-600 focus-visible:ring-amber-500 text-sm shadow-inner"
             />
           </div>
         </div>
 
         {/* ShadCN Data Table */}
         <Table>
-          <TableHeader className="bg-slate-950/60 border-b border-slate-800">
-            <TableRow className="border-b border-slate-800 hover:bg-transparent">
-              <TableHead className="font-bold text-slate-400 uppercase tracking-wider text-[10px] w-[20%]">Name</TableHead>
-              <TableHead className="font-bold text-slate-400 uppercase tracking-wider text-[10px] w-[15%] text-center">Class</TableHead>
-              <TableHead className="font-bold text-slate-400 uppercase tracking-wider text-[10px] w-[15%] text-center">Section</TableHead>
-              <TableHead className="font-bold text-slate-400 uppercase tracking-wider text-[10px] w-[20%]">Parent Name</TableHead>
-              <TableHead className="font-bold text-slate-400 uppercase tracking-wider text-[10px] w-[20%]">Parent Phone</TableHead>
-              <TableHead className="font-bold text-slate-400 uppercase tracking-wider text-[10px] w-[10%] text-right">Actions</TableHead>
+          <TableHeader className="bg-slate-50 dark:bg-slate-950/60 border-b border-slate-200 dark:border-slate-800">
+            <TableRow className="border-b border-slate-200 dark:border-slate-800 hover:bg-transparent">
+              <TableHead className="font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[10px] w-[20%]">Name</TableHead>
+              <TableHead className="font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[10px] w-[15%] text-center">Class</TableHead>
+              <TableHead className="font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[10px] w-[15%] text-center">Section</TableHead>
+              <TableHead className="font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[10px] w-[20%]">Parent Name</TableHead>
+              <TableHead className="font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[10px] w-[20%]">Parent Phone</TableHead>
+              <TableHead className="font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[10px] w-[10%] text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {students.length > 0 ? (
               students.map((student) => (
-                <TableRow key={student.id} className="hover:bg-slate-900/40 border-b border-slate-800/60 transition-colors duration-150">
-                  <TableCell className="font-bold text-white">{student.name}</TableCell>
-                  <TableCell className="text-center text-slate-300 font-medium">{student.class_name || "—"}</TableCell>
-                  <TableCell className="text-center text-slate-300 font-medium">{student.section || "—"}</TableCell>
-                  <TableCell className="text-slate-300">{student.parent_name || "—"}</TableCell>
-                  <TableCell className="text-slate-400 font-mono text-xs">{student.parent_phone}</TableCell>
+                <TableRow key={student.id} className="hover:bg-slate-50 dark:hover:bg-slate-900/40 border-b border-slate-100 dark:border-slate-800/60 transition-colors duration-150">
+                  <TableCell className="font-bold text-slate-900 dark:text-white">{student.name}</TableCell>
+                  <TableCell className="text-center text-slate-700 dark:text-slate-300 font-medium">{student.class_name || "—"}</TableCell>
+                  <TableCell className="text-center text-slate-700 dark:text-slate-300 font-medium">{student.section || "—"}</TableCell>
+                  <TableCell className="text-slate-700 dark:text-slate-300">{student.parent_name || "—"}</TableCell>
+                  <TableCell className="text-slate-500 dark:text-slate-400 font-mono text-xs">{student.parent_phone}</TableCell>
                   <TableCell className="text-right">
                     <Button
                       variant="ghost"
                       size="sm"
                       onClick={() => handleDeleteStudent(student.id)}
-                      className="text-rose-400 hover:text-rose-350 hover:bg-rose-500/10 cursor-pointer"
+                      className="text-rose-500 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-350 hover:bg-rose-50 dark:hover:bg-rose-500/10 cursor-pointer"
                     >
                       Delete
                     </Button>
@@ -217,8 +217,8 @@ export default function StudentsPage() {
               ))
             ) : (
               <TableRow className="hover:bg-transparent">
-                <TableCell colSpan={6} className="h-40 text-center text-slate-500 font-semibold border-b-0">
-                  No student records found. Add students by clicking "Upload CSV"!
+                <TableCell colSpan={6} className="h-40 text-center text-slate-400 dark:text-slate-500 font-semibold border-b-0">
+                  No student records found. Add students by clicking &quot;Upload CSV&quot;!
                 </TableCell>
               </TableRow>
             )}
@@ -229,17 +229,17 @@ export default function StudentsPage() {
 
       {/* Upload Modal - ShadCN Dialog */}
       <Dialog open={openUpload} onOpenChange={setOpenUpload}>
-        <DialogContent className="sm:max-w-md bg-slate-900 border border-slate-800 text-slate-100 shadow-2xl">
+        <DialogContent className="sm:max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 shadow-2xl">
           <form onSubmit={handleUploadSubmit}>
             <DialogHeader>
-              <DialogTitle className="text-white text-lg font-bold">Upload Student Roster</DialogTitle>
-              <DialogDescription className="text-slate-400 text-sm mt-1">
+              <DialogTitle className="text-slate-900 dark:text-white text-lg font-bold">Upload Student Roster</DialogTitle>
+              <DialogDescription className="text-slate-500 dark:text-slate-400 text-sm mt-1">
                 Select a CSV or Excel spreadsheet containing: name, class_name, section, roll_number, parent_name, and parent_phone.
               </DialogDescription>
             </DialogHeader>
             
             <div className="py-6">
-              <div className="flex flex-col items-center justify-center border-2 border-dashed border-slate-800 rounded-2xl p-6 bg-slate-950/40 hover:bg-slate-950/80 transition-all duration-150">
+              <div className="flex flex-col items-center justify-center border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl p-6 bg-slate-50 dark:bg-slate-950/40 hover:bg-slate-100 dark:hover:bg-slate-950/80 transition-all duration-150">
                 <input
                   type="file"
                   accept=".csv,.xlsx,.xls"
@@ -252,7 +252,7 @@ export default function StudentsPage() {
                   className="cursor-pointer text-center flex flex-col items-center gap-2"
                 >
                   <svg
-                    className="h-10 w-10 text-slate-500"
+                    className="h-10 w-10 text-slate-400 dark:text-slate-500"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -264,17 +264,17 @@ export default function StudentsPage() {
                       d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                     />
                   </svg>
-                  <span className="text-sm font-semibold text-amber-400 hover:text-amber-300">
+                  <span className="text-sm font-semibold text-amber-600 dark:text-amber-400 hover:text-amber-500 dark:hover:text-amber-300">
                     {selectedFile ? selectedFile.name : "Click to select roster spreadsheet"}
                   </span>
-                  <span className="text-xs text-slate-500 font-medium">
+                  <span className="text-xs text-slate-400 dark:text-slate-500 font-medium">
                     Supports .csv, .xlsx, or .xls files
                   </span>
                 </label>
               </div>
             </div>
 
-            <DialogFooter className="sm:justify-end gap-2 border-t border-slate-800/80 pt-4">
+            <DialogFooter className="sm:justify-end gap-2 border-t border-slate-200 dark:border-slate-800/80 pt-4">
               <Button
                 type="button"
                 variant="outline"
@@ -282,7 +282,7 @@ export default function StudentsPage() {
                   setOpenUpload(false);
                   setSelectedFile(null);
                 }}
-                className="border-slate-800 text-slate-300 hover:bg-slate-950"
+                className="border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-950"
               >
                 Cancel
               </Button>

@@ -152,8 +152,8 @@ export default function NoticesPage() {
       {/* Page Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl font-extrabold tracking-tight text-white">Notice Management</h2>
-          <p className="text-sm text-slate-400 font-medium mt-1">
+          <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">Notice Management</h2>
+          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium mt-1">
             Create notices and templates to synthesize into automated parent voice notifications
           </p>
         </div>
@@ -167,10 +167,10 @@ export default function NoticesPage() {
               </Button>
             }
           />
-          <SheetContent className="bg-slate-900 border-l border-slate-800 text-slate-100 p-6 flex flex-col gap-6 overflow-y-auto w-full sm:max-w-md shadow-2xl">
-            <SheetHeader className="space-y-2 pb-4 border-b border-slate-800">
-              <SheetTitle className="text-white font-extrabold text-lg uppercase tracking-wider">New Notice Template</SheetTitle>
-              <SheetDescription className="text-slate-400 text-xs font-medium">
+          <SheetContent className="bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 p-6 flex flex-col gap-6 overflow-y-auto w-full sm:max-w-md shadow-2xl">
+            <SheetHeader className="space-y-2 pb-4 border-b border-slate-200 dark:border-slate-800">
+              <SheetTitle className="text-slate-900 dark:text-white font-extrabold text-lg uppercase tracking-wider">New Notice Template</SheetTitle>
+              <SheetDescription className="text-slate-500 dark:text-slate-400 text-xs font-medium">
                 Compose a notice. The message text will be converted to high-quality audio using voice AI.
               </SheetDescription>
             </SheetHeader>
@@ -178,9 +178,9 @@ export default function NoticesPage() {
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               {/* Title Input */}
               <div className="space-y-1.5">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-0.5">Notice Title</label>
+                <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest pl-0.5">Notice Title</label>
                 <Input
-                  className="bg-slate-950 border-slate-800 text-slate-200 placeholder-slate-600 focus-visible:ring-amber-500 focus-visible:border-amber-500 text-sm h-10 rounded-lg"
+                  className="bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-600 focus-visible:ring-amber-500 focus-visible:border-amber-500 text-sm h-10 rounded-lg"
                   placeholder="e.g. Diwali Holiday Announcement"
                   {...register("title")}
                 />
@@ -191,9 +191,9 @@ export default function NoticesPage() {
 
               {/* Type Select */}
               <div className="space-y-1.5">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-0.5">Notice Type</label>
+                <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest pl-0.5">Notice Type</label>
                 <select 
-                  className="w-full bg-slate-950 border border-slate-800 text-slate-200 focus:ring-amber-500 focus:border-amber-500 text-sm h-10 rounded-lg px-3 outline-none"
+                  className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-200 focus:ring-amber-500 focus:border-amber-500 text-sm h-10 rounded-lg px-3 outline-none"
                   {...register("type")}
                 >
                   <option value="general">General Notification</option>
@@ -206,10 +206,10 @@ export default function NoticesPage() {
 
               {/* Message Content Textarea */}
               <div className="space-y-1.5">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-0.5">Voice Message Content (TTS Text)</label>
+                <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest pl-0.5">Voice Message Content (TTS Text)</label>
                 <Textarea
                   rows={6}
-                  className="bg-slate-950 border-slate-800 text-slate-200 placeholder-slate-600 focus-visible:ring-amber-500 focus-visible:border-amber-500 text-sm rounded-lg"
+                  className="bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-600 focus-visible:ring-amber-500 focus-visible:border-amber-500 text-sm rounded-lg"
                   placeholder="नमस्ते अभिभावक, दीपावली के पावन अवसर पर विद्यालय 12 नवंबर से 16 नवंबर तक बंद रहेगा..."
                   {...register("message")}
                 />
@@ -222,12 +222,12 @@ export default function NoticesPage() {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-200 dark:border-slate-800">
                 <Button
                   type="button"
                   variant="outline"
                   onClick={() => setOpenCreate(false)}
-                  className="border-slate-800 text-slate-300 hover:bg-slate-950"
+                  className="border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-950"
                 >
                   Cancel
                 </Button>
@@ -251,7 +251,7 @@ export default function NoticesPage() {
             <Card key={notice.id} className="glass-panel flex flex-col justify-between hover:shadow-2xl hover:border-slate-700/80 transition-all duration-300 relative overflow-hidden group">
               <CardHeader className="space-y-2 pb-3">
                 <div className="flex items-center justify-between gap-2">
-                  <Badge className="bg-amber-500/10 text-amber-400 border border-amber-500/20 font-bold px-2 py-0.5 rounded text-[10px]">
+                  <Badge className="bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20 font-bold px-2 py-0.5 rounded text-[10px]">
                     {getTypeLabel(notice.type)}
                   </Badge>
                   <div className="flex items-center gap-1.5">
@@ -267,19 +267,19 @@ export default function NoticesPage() {
                     </button>
                   </div>
                 </div>
-                <CardTitle className="text-base font-extrabold text-white line-clamp-1">
+                <CardTitle className="text-base font-extrabold text-slate-900 dark:text-white line-clamp-1">
                   {notice.title}
                 </CardTitle>
-                <CardDescription className="text-xs text-slate-400">
+                <CardDescription className="text-xs text-slate-500 dark:text-slate-400">
                   Created {new Date(notice.created_at).toLocaleDateString()}
                 </CardDescription>
               </CardHeader>
               
-              <CardContent className="text-sm text-slate-300 line-clamp-4 pb-4 font-medium leading-relaxed">
+              <CardContent className="text-sm text-slate-700 dark:text-slate-300 line-clamp-4 pb-4 font-medium leading-relaxed">
                 {notice.message}
               </CardContent>
               
-              <CardFooter className="border-t border-slate-800/80 pt-4 bg-slate-950/40 rounded-b-2xl">
+              <CardFooter className="border-t border-slate-200 dark:border-slate-800/80 pt-4 bg-slate-50 dark:bg-slate-950/40 rounded-b-2xl">
                 {notice.audio_url ? (
                   <div className="w-full flex items-center justify-between gap-2">
                     <span className="text-[10px] text-slate-500 font-bold font-mono tracking-wider uppercase">WAV Mono</span>
@@ -299,8 +299,8 @@ export default function NoticesPage() {
           ))}
         </div>
       ) : (
-        <div className="glass-panel rounded-3xl p-12 text-center flex flex-col items-center justify-center min-h-[300px] border border-slate-800/80">
-          <div className="rounded-full bg-slate-900/80 border border-slate-800 p-4 mb-4">
+        <div className="glass-panel rounded-3xl p-12 text-center flex flex-col items-center justify-center min-h-[300px]">
+          <div className="rounded-full bg-slate-100 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 p-4 mb-4">
             <svg
               className="h-8 w-8 text-amber-500 animate-pulse"
               fill="none"
@@ -315,8 +315,8 @@ export default function NoticesPage() {
               />
             </svg>
           </div>
-          <h3 className="text-lg font-bold text-white">No notices created yet</h3>
-          <p className="text-slate-400 text-sm max-w-sm mt-1 mb-4 font-medium leading-relaxed">
+          <h3 className="text-lg font-bold text-slate-900 dark:text-white">No notices created yet</h3>
+          <p className="text-slate-500 dark:text-slate-400 text-sm max-w-sm mt-1 mb-4 font-medium leading-relaxed">
             Notice templates are required before you can dispatch voice broadcasting campaigns. Click the button to create your first notice!
           </p>
           <Button

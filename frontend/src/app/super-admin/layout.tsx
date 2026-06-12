@@ -42,12 +42,12 @@ export default function SuperAdminLayout({
       setThemeMode("light");
       localStorage.setItem("theme_mode", "light");
       document.documentElement.classList.remove("dark");
-      toast.info("Theme switched to Yellow White");
+      toast.info("Day Mode");
     } else {
       setThemeMode("dark");
       localStorage.setItem("theme_mode", "dark");
       document.documentElement.classList.add("dark");
-      toast.info("Theme switched to Yellow Dark");
+      toast.info("Night Mode");
     }
   };
 

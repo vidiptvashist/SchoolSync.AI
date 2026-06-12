@@ -140,13 +140,13 @@ export default function AnalyticsDashboard() {
   };
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto">
+    <div className="space-y-6 max-w-7xl mx-auto animate-fadeIn duration-300">
       
       {/* Top Header Bar */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-6 border-b border-slate-200">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-6 border-b border-slate-200 dark:border-slate-800">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">Analytics Dashboard</h1>
-          <p className="text-sm text-slate-500 font-medium mt-1">Monitor school call logs, intent metrics, and active campaigns</p>
+          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">Analytics Dashboard</h1>
+          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium mt-1">Monitor school call logs, intent metrics, and active campaigns</p>
         </div>
         
         {/* Date Filters Control */}
@@ -154,7 +154,7 @@ export default function AnalyticsDashboard() {
           <div className="flex bg-slate-200/60 dark:bg-slate-950/40 rounded-xl p-1 border border-slate-200 dark:border-slate-800 shadow-inner">
             <button
               onClick={() => setRangeType("7days")}
-              className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all ${
+              className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
                 rangeType === "7days" 
                   ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm font-bold border border-slate-200/50 dark:border-slate-800/30" 
                   : "text-slate-650 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
@@ -164,7 +164,7 @@ export default function AnalyticsDashboard() {
             </button>
             <button
               onClick={() => setRangeType("30days")}
-              className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all ${
+              className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
                 rangeType === "30days" 
                   ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm font-bold border border-slate-200/50 dark:border-slate-800/30" 
                   : "text-slate-650 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
@@ -174,7 +174,7 @@ export default function AnalyticsDashboard() {
             </button>
             <button
               onClick={() => setRangeType("custom")}
-              className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all ${
+              className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
                 rangeType === "custom" 
                   ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm font-bold border border-slate-200/50 dark:border-slate-800/30" 
                   : "text-slate-650 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
@@ -190,14 +190,14 @@ export default function AnalyticsDashboard() {
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="h-10 text-xs w-36 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-200"
+                className="h-10 text-xs w-36 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-600 focus-visible:ring-amber-500"
               />
               <span className="text-slate-400 text-xs font-semibold">to</span>
               <Input
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="h-10 text-xs w-36 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-200"
+                className="h-10 text-xs w-36 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-600 focus-visible:ring-amber-500"
               />
               <Button type="submit" size="sm" className="h-10 px-4 bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-xs shadow-lg shadow-amber-500/10 cursor-pointer">
                 Apply
@@ -209,7 +209,7 @@ export default function AnalyticsDashboard() {
           <button
             onClick={() => fetchAnalytics()}
             disabled={loading}
-            className="flex items-center gap-2 h-10 px-4 py-2 text-xs font-semibold text-slate-600 dark:text-slate-350 hover:text-slate-900 dark:hover:text-white bg-white/60 dark:bg-slate-900/60 hover:bg-white dark:hover:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-md transition-all duration-200 disabled:opacity-50 cursor-pointer"
+            className="flex items-center gap-2 h-10 px-4 py-2 text-xs font-semibold text-slate-650 dark:text-slate-350 hover:text-slate-900 dark:hover:text-white bg-white/60 dark:bg-slate-900/60 hover:bg-white dark:hover:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-md transition-all duration-200 disabled:opacity-50 cursor-pointer"
           >
             <RefreshCw className={`h-3.5 w-3.5 text-amber-500 dark:text-amber-400 ${loading ? 'animate-spin' : ''}`} />
             {loading ? 'Syncing...' : 'Sync Data'}
@@ -218,7 +218,7 @@ export default function AnalyticsDashboard() {
       </div>
 
       {error && (
-        <div className="flex items-center gap-3 p-4 bg-rose-500/10 border border-rose-500/20 text-rose-650 dark:text-rose-200 rounded-2xl">
+        <div className="flex items-center gap-3 p-4 bg-rose-500/10 border border-rose-500/20 text-rose-700 dark:text-rose-200 rounded-2xl">
           <AlertCircle className="h-5 w-5 text-rose-500 flex-shrink-0" />
           <p className="text-sm font-medium">{error}</p>
         </div>
@@ -246,9 +246,9 @@ export default function AnalyticsDashboard() {
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">{data.total_calls}</div>
-                <div className="flex items-center gap-1.5 mt-2 text-xs font-bold text-emerald-600 dark:text-[#22c55e]">
+                <div className="flex items-center gap-1.5 mt-2 text-xs font-bold text-emerald-650 dark:text-[#22c55e]">
                   <span>+12%</span>
-                  <span className="text-slate-450 dark:text-slate-500 font-medium">vs last month</span>
+                  <span className="text-slate-500 dark:text-slate-500 font-medium">vs last month</span>
                 </div>
               </CardContent>
             </Card>
@@ -262,12 +262,12 @@ export default function AnalyticsDashboard() {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className={`text-3xl font-extrabold tracking-tight ${data.call_success_rate >= 80 ? 'text-emerald-600 dark:text-[#22c55e]' : 'text-rose-500'}`}>
+                <div className={`text-3xl font-extrabold tracking-tight ${data.call_success_rate >= 80 ? 'text-emerald-650 dark:text-[#22c55e]' : 'text-rose-500'}`}>
                   {data.call_success_rate}%
                 </div>
-                <div className="flex items-center gap-1.5 mt-2 text-xs text-slate-500 dark:text-slate-450 font-medium">
+                <div className="flex items-center gap-1.5 mt-2 text-xs text-slate-500 dark:text-slate-400 font-medium">
                   {data.call_success_rate >= 80 ? (
-                    <span className="text-emerald-600 dark:text-[#22c55e] font-bold">Good (&ge;80%)</span>
+                    <span className="text-emerald-650 dark:text-[#22c55e] font-bold">Good (&ge;80%)</span>
                   ) : (
                     <span className="text-rose-500 font-bold">Needs Attention (&lt;80%)</span>
                   )}
@@ -286,23 +286,23 @@ export default function AnalyticsDashboard() {
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">{data.average_duration_seconds}s</div>
-                <div className="flex items-center gap-1.5 mt-2 text-xs text-slate-500 dark:text-slate-450 font-medium">
+                <div className="flex items-center gap-1.5 mt-2 text-xs text-slate-500 dark:text-slate-400 font-medium">
                   <span>Active talking time</span>
                 </div>
               </CardContent>
             </Card>
  
             {/* Card 4: Unique Parents Reached */}
-            <Card className="hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-slate-200 dark:border-slate-800/80 border-t-4 border-t-indigo-500 overflow-hidden glass-panel">
+            <Card className="hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-slate-200 dark:border-slate-800/80 border-t-4 border-t-violet-500 overflow-hidden glass-panel">
               <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
                 <CardTitle className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Unique Parents</CardTitle>
-                <div className="p-2 bg-indigo-55/10 rounded-lg text-indigo-500 border border-indigo-500/20">
+                <div className="p-2 bg-violet-500/10 rounded-lg text-violet-500 border border-violet-500/20">
                   <Users className="h-5 w-5" />
                 </div>
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">{data.unique_callers}</div>
-                <div className="flex items-center gap-1.5 mt-2 text-xs text-slate-500 dark:text-slate-450 font-medium">
+                <div className="flex items-center gap-1.5 mt-2 text-xs text-slate-500 dark:text-slate-400 font-medium">
                   <span>Distinct parent contacts</span>
                 </div>
               </CardContent>
@@ -312,13 +312,13 @@ export default function AnalyticsDashboard() {
             <Card className="hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-slate-200 dark:border-slate-800/80 border-t-4 border-t-teal-500 overflow-hidden glass-panel">
               <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
                 <CardTitle className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Chat Sessions</CardTitle>
-                <div className="p-2 bg-teal-500/10 rounded-lg text-teal-550 border border-teal-500/20">
+                <div className="p-2 bg-teal-500/10 rounded-lg text-teal-600 dark:text-teal-400 border border-teal-500/20">
                   <MessageSquare className="h-5 w-5" />
                 </div>
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">{data.chat_stats?.total_sessions || 0}</div>
-                <div className="flex items-center gap-1.5 mt-2 text-xs text-slate-500 dark:text-slate-450 font-medium">
+                <div className="flex items-center gap-1.5 mt-2 text-xs text-slate-500 dark:text-slate-400 font-medium">
                   <span>Active: {data.chat_stats?.active_sessions || 0} • Avg: {data.chat_stats?.avg_messages_per_session || 0} msgs</span>
                 </div>
               </CardContent>
@@ -375,7 +375,7 @@ export default function AnalyticsDashboard() {
                     </LineChart>
                   </ResponsiveContainer>
                 ) : (
-                  <div className="flex h-full w-full items-center justify-center text-sm font-semibold text-slate-400">
+                  <div className="flex h-full w-full items-center justify-center text-sm font-semibold text-slate-450 dark:text-slate-500">
                     No calls recorded in this date range.
                   </div>
                 )}
@@ -383,10 +383,10 @@ export default function AnalyticsDashboard() {
             </Card>
 
             {/* Top Parent Questions (Bar Chart) - 40% */}
-            <Card className="lg:col-span-5 glass-panel shadow-sm">
+            <Card className="lg:col-span-5 glass-panel shadow-sm border border-slate-200 dark:border-slate-800/80">
               <CardHeader>
                 <CardTitle className="text-lg font-bold text-slate-800 dark:text-white">Top Parent Questions</CardTitle>
-                <CardDescription className="text-xs dark:text-slate-400">Frequency of classified call intents</CardDescription>
+                <CardDescription className="text-xs text-slate-500 dark:text-slate-400">Frequency of classified call intents</CardDescription>
               </CardHeader>
               <CardContent className="h-[340px] pl-2">
                 {isMounted && data.top_intents && data.top_intents.length > 0 ? (
@@ -397,11 +397,11 @@ export default function AnalyticsDashboard() {
                       margin={{ top: 10, right: 30, left: 10, bottom: 5 }}
                     >
                       <CartesianGrid strokeDasharray="3 3" className="stroke-slate-200 dark:stroke-slate-700" horizontal={false} />
-                      <XAxis type="number" className="text-slate-500 dark:text-slate-400" fontSize={11} tickLine={false} axisLine={false} />
+                      <XAxis type="number" className="text-slate-550 dark:text-slate-400" fontSize={11} tickLine={false} axisLine={false} />
                       <YAxis 
                         dataKey="label" 
                         type="category" 
-                        className="text-slate-600 dark:text-slate-300" 
+                        className="text-slate-700 dark:text-slate-300" 
                         fontSize={11} 
                         tickLine={false} 
                         axisLine={false}
@@ -419,7 +419,7 @@ export default function AnalyticsDashboard() {
                     </BarChart>
                   </ResponsiveContainer>
                 ) : (
-                  <div className="flex h-full w-full items-center justify-center text-sm font-semibold text-slate-400 dark:text-slate-500">
+                  <div className="flex h-full w-full items-center justify-center text-sm font-semibold text-slate-450 dark:text-slate-500">
                     No classified questions in this date range.
                   </div>
                 )}
@@ -430,10 +430,10 @@ export default function AnalyticsDashboard() {
           {/* Row 2.5: Chat Insights & Intents */}
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
             {/* Chat Intent Breakdown Bar Chart - 7/12 cols */}
-            <Card className="lg:col-span-7 glass-panel shadow-sm">
+            <Card className="lg:col-span-7 glass-panel shadow-sm border border-slate-200 dark:border-slate-800/80">
               <CardHeader>
                 <CardTitle className="text-lg font-bold text-slate-800 dark:text-white">Top Chat Assistant Intents</CardTitle>
-                <CardDescription className="text-xs dark:text-slate-400">Frequency of parent query intents handled by the text-based chatbot</CardDescription>
+                <CardDescription className="text-xs text-slate-550 dark:text-slate-400">Frequency of parent query intents handled by the text-based chatbot</CardDescription>
               </CardHeader>
               <CardContent className="h-[280px] pl-2">
                 {isMounted && data.chat_stats?.top_chat_intents && data.chat_stats.top_chat_intents.length > 0 ? (
@@ -443,8 +443,8 @@ export default function AnalyticsDashboard() {
                       margin={{ top: 15, right: 20, left: 10, bottom: 5 }}
                     >
                       <CartesianGrid strokeDasharray="3 3" className="stroke-slate-200 dark:stroke-slate-700" vertical={false} />
-                      <XAxis dataKey="label" className="text-slate-500 dark:text-slate-400" fontSize={11} tickLine={false} axisLine={false} />
-                      <YAxis className="text-slate-500 dark:text-slate-400" fontSize={11} tickLine={false} axisLine={false} />
+                      <XAxis dataKey="label" className="text-slate-555 dark:text-slate-400" fontSize={11} tickLine={false} axisLine={false} />
+                      <YAxis className="text-slate-555 dark:text-slate-400" fontSize={11} tickLine={false} axisLine={false} />
                       <Tooltip 
                         contentStyle={{ backgroundColor: "var(--color-popover)", color: "var(--color-popover-foreground)", borderRadius: "8px", border: "1px solid var(--color-border)" }}
                       />
@@ -457,7 +457,7 @@ export default function AnalyticsDashboard() {
                     </BarChart>
                   </ResponsiveContainer>
                 ) : (
-                  <div className="flex h-full w-full items-center justify-center text-sm font-semibold text-slate-400 dark:text-slate-500">
+                  <div className="flex h-full w-full items-center justify-center text-sm font-semibold text-slate-450 dark:text-slate-500">
                     No chat messages recorded in this date range.
                   </div>
                 )}
@@ -465,22 +465,22 @@ export default function AnalyticsDashboard() {
             </Card>
 
             {/* Chat Engagement Statistics Cards - 5/12 cols */}
-            <Card className="lg:col-span-5 glass-panel shadow-sm">
+            <Card className="lg:col-span-5 glass-panel shadow-sm border border-slate-200 dark:border-slate-800/80">
               <CardHeader>
                 <CardTitle className="text-lg font-bold text-slate-800 dark:text-white">Chat Engagement Overview</CardTitle>
-                <CardDescription className="text-xs dark:text-slate-400">Aggregated text chat assistant metrics</CardDescription>
+                <CardDescription className="text-xs text-slate-550 dark:text-slate-400">Aggregated text chat assistant metrics</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="p-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700 rounded-2xl">
-                    <span className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">Active Conversations</span>
+                    <span className="text-[10px] text-slate-450 dark:text-slate-500 font-bold uppercase tracking-wider">Active Conversations</span>
                     <p className="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">
                       {data.chat_stats?.active_sessions || 0}
                     </p>
                   </div>
                   <div className="p-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700 rounded-2xl">
-                    <span className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">Avg Messages / Session</span>
+                    <span className="text-[10px] text-slate-450 dark:text-slate-500 font-bold uppercase tracking-wider">Avg Messages / Session</span>
                     <p className="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">
                       {data.chat_stats?.avg_messages_per_session || 0}
                     </p>
@@ -492,7 +492,7 @@ export default function AnalyticsDashboard() {
                     <MessageSquare className="h-4 w-4 text-teal-600 dark:text-teal-500" />
                     <span>Parent Portal Performance</span>
                   </div>
-                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-sans">
+                  <p className="text-xs text-slate-650 dark:text-slate-400 leading-relaxed font-sans font-medium">
                     The parent chat portal allows parents to request information about fee status and attendance using secure OTP login. High average message count indicates strong parent self-service engagement.
                   </p>
                 </div>
@@ -502,44 +502,44 @@ export default function AnalyticsDashboard() {
           </div>
 
           {/* Row 3: Campaign Performance Table */}
-          <Card className="glass-panel shadow-sm">
-            <CardHeader className="flex flex-row items-center justify-between">
+          <Card className="glass-panel shadow-sm border border-slate-200 dark:border-slate-800/80">
+            <CardHeader className="flex flex-row items-center justify-between border-b border-slate-200 dark:border-slate-800/80 pb-3">
               <div>
                 <CardTitle className="text-lg font-bold text-slate-800 dark:text-white">Campaign Performance</CardTitle>
-                <CardDescription className="text-xs dark:text-slate-400">Outbound notice broadcasting campaigns run in this window</CardDescription>
+                <CardDescription className="text-xs text-slate-500 dark:text-slate-400 font-medium">Outbound notice broadcasting campaigns run in this window</CardDescription>
               </div>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-0">
               {data.campaign_stats && data.campaign_stats.length > 0 ? (
-                <div className="overflow-x-auto rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/50">
+                <div className="overflow-x-auto">
                   <Table>
-                    <TableHeader className="bg-slate-50 dark:bg-slate-800/50">
-                      <TableRow className="border-b border-slate-200 dark:border-slate-700">
-                        <TableHead className="text-slate-700 dark:text-slate-300 font-bold text-xs uppercase tracking-wider py-4">Campaign Name</TableHead>
-                        <TableHead className="text-slate-700 dark:text-slate-300 font-bold text-xs uppercase tracking-wider text-right">Calls Sent</TableHead>
-                        <TableHead className="text-slate-700 dark:text-slate-300 font-bold text-xs uppercase tracking-wider text-right">Answered</TableHead>
-                        <TableHead className="text-slate-700 dark:text-slate-300 font-bold text-xs uppercase tracking-wider text-right">Success Rate</TableHead>
-                        <TableHead className="text-slate-700 dark:text-slate-300 font-bold text-xs uppercase tracking-wider text-right">Date</TableHead>
+                    <TableHeader className="bg-slate-50 dark:bg-slate-950/60 border-b border-slate-200 dark:border-slate-850">
+                      <TableRow className="border-b border-slate-200 dark:border-slate-800 hover:bg-transparent">
+                        <TableHead className="text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-wider py-4 pl-6">Campaign Name</TableHead>
+                        <TableHead className="text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-wider text-right">Calls Sent</TableHead>
+                        <TableHead className="text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-wider text-right">Answered</TableHead>
+                        <TableHead className="text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-wider text-right">Success Rate</TableHead>
+                        <TableHead className="text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-wider text-right pr-6">Date</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {data.campaign_stats.map((campaign: any, idx: number) => (
-                        <TableRow key={idx} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 border-b border-slate-100 dark:border-slate-800 transition-colors">
-                          <TableCell className="font-semibold text-slate-900 dark:text-white py-3.5">{campaign.campaign_name}</TableCell>
-                          <TableCell className="text-right text-slate-700 dark:text-slate-300 font-medium">{campaign.total}</TableCell>
-                          <TableCell className="text-right text-slate-700 dark:text-slate-300 font-medium">{campaign.answered}</TableCell>
-                          <TableCell className="text-right py-3.5">
+                        <TableRow key={idx} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 border-b border-slate-100 dark:border-slate-800/60 transition-colors">
+                          <TableCell className="font-bold text-slate-900 dark:text-white py-3.5 pl-6">{campaign.campaign_name}</TableCell>
+                          <TableCell className="text-right text-slate-700 dark:text-slate-300 font-bold font-mono text-xs">{campaign.total}</TableCell>
+                          <TableCell className="text-right text-slate-700 dark:text-slate-300 font-bold font-mono text-xs">{campaign.answered}</TableCell>
+                          <TableCell className="text-right py-3.5 font-bold font-mono text-xs">
                             <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${
                               campaign.rate >= 80 
                                 ? "bg-[#22c55e]/10 text-[#22c55e]" 
                                 : campaign.rate >= 50 
                                 ? "bg-[#f59e0b]/10 text-[#f59e0b]"
-                                : "bg-rose-50 dark:bg-rose-500/10 text-rose-700 dark:text-rose-400"
+                                : "bg-rose-550/10 text-rose-500 border border-rose-500/20"
                             }`}>
                               {campaign.rate}%
                             </span>
                           </TableCell>
-                          <TableCell className="text-right text-slate-500 dark:text-slate-400 text-xs font-semibold">
+                          <TableCell className="text-right text-slate-500 dark:text-slate-400 text-xs font-semibold pr-6">
                             {campaign.date ? campaign.date : "N/A"}
                           </TableCell>
                         </TableRow>
@@ -548,7 +548,7 @@ export default function AnalyticsDashboard() {
                   </Table>
                 </div>
               ) : (
-                <div className="flex h-32 w-full items-center justify-center border border-dashed border-slate-200 dark:border-slate-700 rounded-xl text-sm font-semibold text-slate-400 dark:text-slate-500">
+                <div className="flex h-32 w-full items-center justify-center text-sm font-semibold text-slate-450 dark:text-slate-500">
                   No active campaigns recorded in this date range.
                 </div>
               )}
@@ -559,4 +559,3 @@ export default function AnalyticsDashboard() {
     </div>
   );
 }
-

@@ -217,8 +217,8 @@ export default function CampaignsPage() {
       {/* Header Panel */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl font-extrabold tracking-tight text-white">Calling Campaigns</h2>
-          <p className="text-sm text-slate-400 font-medium mt-1">
+          <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">Calling Campaigns</h2>
+          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium mt-1">
             Launch or schedule voice notices to parental phone registers
           </p>
         </div>
@@ -234,18 +234,18 @@ export default function CampaignsPage() {
       </div>
 
       {/* Campaigns Listing Table */}
-      <div className="glass-panel rounded-2xl shadow-xl overflow-hidden border border-slate-800/80">
+      <div className="glass-panel rounded-2xl shadow-xl overflow-hidden border border-slate-200 dark:border-slate-800/80">
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left border-collapse">
             <thead>
-              <tr className="bg-slate-950/60 border-b border-slate-800">
-                <th className="p-4 font-bold text-slate-400 uppercase tracking-wider text-[10px]">Campaign Name</th>
-                <th className="p-4 font-bold text-slate-400 uppercase tracking-wider text-[10px]">Status</th>
-                <th className="p-4 font-bold text-slate-400 uppercase tracking-wider text-[10px] text-center">Total Calls</th>
-                <th className="p-4 font-bold text-slate-400 uppercase tracking-wider text-[10px] text-center">Answered</th>
-                <th className="p-4 font-bold text-slate-400 uppercase tracking-wider text-[10px]">Completion %</th>
-                <th className="p-4 font-bold text-slate-400 uppercase tracking-wider text-[10px]">Schedule / Run Date</th>
-                <th className="p-4 font-bold text-slate-400 uppercase tracking-wider text-[10px] text-right">Actions</th>
+              <tr className="bg-slate-50 dark:bg-slate-950/60 border-b border-slate-200 dark:border-slate-800">
+                <th className="p-4 font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[10px]">Campaign Name</th>
+                <th className="p-4 font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[10px]">Status</th>
+                <th className="p-4 font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[10px] text-center">Total Calls</th>
+                <th className="p-4 font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[10px] text-center">Answered</th>
+                <th className="p-4 font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[10px]">Completion %</th>
+                <th className="p-4 font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[10px]">Schedule / Run Date</th>
+                <th className="p-4 font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[10px] text-right">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -255,9 +255,9 @@ export default function CampaignsPage() {
                   return (
                     <tr
                       key={c.id}
-                      className="border-b border-slate-850 hover:bg-slate-900/40 transition-all cursor-pointer"
+                      className="border-b border-slate-100 dark:border-slate-800/60 hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-all cursor-pointer"
                     >
-                      <td className="p-4 font-bold text-white">
+                      <td className="p-4 font-bold text-slate-900 dark:text-white">
                         <Link href={`/dashboard/campaigns/${c.id}`} className="block">
                           {c.name}
                         </Link>
@@ -267,22 +267,22 @@ export default function CampaignsPage() {
                           {getStatusBadge(c.status)}
                         </Link>
                       </td>
-                      <td className="p-4 text-center text-slate-300">
+                      <td className="p-4 text-center text-slate-700 dark:text-slate-300">
                         <Link href={`/dashboard/campaigns/${c.id}`} className="block font-mono text-xs font-semibold">
                           {c.total_calls}
                         </Link>
                       </td>
-                      <td className="p-4 text-center text-slate-300">
+                      <td className="p-4 text-center text-slate-700 dark:text-slate-300">
                         <Link href={`/dashboard/campaigns/${c.id}`} className="block font-mono text-xs font-semibold">
                           {c.answered_calls}
                         </Link>
                       </td>
                       <td className="p-4 w-[15%]">
                         <Link href={`/dashboard/campaigns/${c.id}`} className="block space-y-1">
-                          <div className="flex items-center justify-between text-xs font-bold text-amber-400">
+                          <div className="flex items-center justify-between text-xs font-bold text-amber-600 dark:text-amber-400">
                             <span>{pct}%</span>
                           </div>
-                          <div className="w-full bg-slate-900 border border-slate-800 h-1.5 rounded-full overflow-hidden">
+                          <div className="w-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 h-1.5 rounded-full overflow-hidden">
                             <div
                               className="bg-gradient-to-r from-amber-500 to-amber-400 h-1.5 rounded-full transition-all duration-300"
                               style={{ width: `${pct}%` }}
@@ -290,7 +290,7 @@ export default function CampaignsPage() {
                           </div>
                         </Link>
                       </td>
-                      <td className="p-4 text-xs text-slate-400 font-medium">
+                      <td className="p-4 text-xs text-slate-500 dark:text-slate-400 font-medium">
                         <Link href={`/dashboard/campaigns/${c.id}`} className="block">
                           {c.scheduled_at
                             ? `Scheduled: ${new Date(c.scheduled_at).toLocaleString()}`
@@ -313,7 +313,7 @@ export default function CampaignsPage() {
                             variant="ghost"
                             size="sm"
                             onClick={(e) => handleDeleteCampaign(e, c.id)}
-                            className="text-rose-400 hover:text-rose-350 hover:bg-rose-500/10 cursor-pointer"
+                            className="text-rose-500 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-350 hover:bg-rose-50 dark:hover:bg-rose-500/10 cursor-pointer"
                           >
                             Delete
                           </Button>
@@ -324,7 +324,7 @@ export default function CampaignsPage() {
                 })
               ) : (
                 <tr className="hover:bg-transparent">
-                  <td colSpan={7} className="h-44 text-center text-slate-500 font-semibold border-b-0">
+                  <td colSpan={7} className="h-44 text-center text-slate-450 dark:text-slate-500 font-semibold border-b-0">
                     No campaigns registered. Click "New Campaign" to launch a broadcast.
                   </td>
                 </tr>
@@ -336,31 +336,31 @@ export default function CampaignsPage() {
 
       {/* Creation Modal - ShadCN Dialog */}
       <Dialog open={openCreate} onOpenChange={setOpenCreate}>
-        <DialogContent className="sm:max-w-lg bg-slate-900 border border-slate-800 text-slate-100 shadow-2xl p-6">
+        <DialogContent className="sm:max-w-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 shadow-2xl p-6">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-            <DialogHeader className="space-y-2 pb-4 border-b border-slate-800">
-              <DialogTitle className="text-white font-extrabold text-lg uppercase tracking-wider">Initiate Voice Campaign</DialogTitle>
-              <DialogDescription className="text-slate-400 text-xs font-medium">
+            <DialogHeader className="space-y-2 pb-4 border-b border-slate-200 dark:border-slate-800">
+              <DialogTitle className="text-slate-900 dark:text-white font-extrabold text-lg uppercase tracking-wider">Initiate Voice Campaign</DialogTitle>
+              <DialogDescription className="text-slate-500 dark:text-slate-400 text-xs font-medium">
                 Choose a ready notice voice note and select target parent filters.
               </DialogDescription>
             </DialogHeader>
 
             {/* Campaign Name */}
             <div className="space-y-1.5">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-0.5">Campaign Name</label>
+              <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest pl-0.5">Campaign Name</label>
               <Input
-                className="bg-slate-950 border-slate-800 text-slate-200 placeholder-slate-600 focus-visible:ring-amber-500 text-sm h-10 rounded-lg"
+                className="bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-600 focus-visible:ring-amber-500 text-sm h-10 rounded-lg"
                 placeholder="e.g. 5th Grade PTM Announcement"
                 {...register("name")}
               />
-              {errors.name && <p className="text-xs text-red-400">{errors.name.message}</p>}
+              {errors.name && <p className="text-xs text-red-500 dark:text-red-400">{errors.name.message}</p>}
             </div>
 
             {/* Notice selection */}
             <div className="space-y-1.5">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-0.5">Select Voice Notice</label>
+              <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest pl-0.5">Select Voice Notice</label>
               <select 
-                className="w-full bg-slate-950 border border-slate-800 text-slate-200 focus:ring-amber-500 focus:border-amber-500 text-sm h-10 rounded-lg px-3 outline-none"
+                className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-200 focus:ring-amber-500 focus:border-amber-500 text-sm h-10 rounded-lg px-3 outline-none"
                 {...register("notice_id")}
               >
                 <option value="">-- Choose Notice Template --</option>
@@ -371,19 +371,19 @@ export default function CampaignsPage() {
                 ))}
               </select>
               {readyNotices.length === 0 && (
-                <p className="text-xs text-amber-500 font-bold mt-1">
+                <p className="text-xs text-amber-600 dark:text-amber-500 font-bold mt-1">
                   ⚠️ Note: Only notices with 'Ready' voice statuses are displayed. Make sure your notice audio is processed first!
                 </p>
               )}
-              {errors.notice_id && <p className="text-xs text-red-400">{errors.notice_id.message}</p>}
+              {errors.notice_id && <p className="text-xs text-red-500 dark:text-red-400">{errors.notice_id.message}</p>}
             </div>
 
             {/* Target selection */}
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-0.5">Target Group</label>
+                <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest pl-0.5">Target Group</label>
                 <select 
-                  className="w-full bg-slate-950 border border-slate-800 text-slate-200 focus:ring-amber-500 focus:border-amber-500 text-sm h-10 rounded-lg px-3 outline-none"
+                  className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-200 focus:ring-amber-500 focus:border-amber-500 text-sm h-10 rounded-lg px-3 outline-none"
                   {...register("target_type")}
                 >
                   <option value="all">All Parents</option>
@@ -395,9 +395,9 @@ export default function CampaignsPage() {
               {/* Class Selection */}
               {(watchTargetType === "class" || watchTargetType === "section") && (
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-0.5">Class Name</label>
+                  <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest pl-0.5">Class Name</label>
                   <Input
-                    className="bg-slate-950 border-slate-800 text-slate-200 placeholder-slate-650 focus-visible:ring-amber-500 text-sm h-10 rounded-lg"
+                    className="bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-600 focus-visible:ring-amber-500 text-sm h-10 rounded-lg"
                     placeholder="e.g. 10 or 5"
                     {...register("class_name")}
                   />
@@ -408,9 +408,9 @@ export default function CampaignsPage() {
             {/* Section Selection */}
             {watchTargetType === "section" && (
               <div className="space-y-1.5">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-0.5">Section</label>
+                <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest pl-0.5">Section</label>
                 <Input
-                  className="bg-slate-950 border-slate-800 text-slate-200 placeholder-slate-650 focus-visible:ring-amber-500 text-sm h-10 rounded-lg"
+                  className="bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-600 focus-visible:ring-amber-500 text-sm h-10 rounded-lg"
                   placeholder="e.g. A or B"
                   {...register("section")}
                 />
@@ -420,9 +420,9 @@ export default function CampaignsPage() {
             {/* Schedule type */}
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-0.5">Schedule Run</label>
+                <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest pl-0.5">Schedule Run</label>
                 <select 
-                  className="w-full bg-slate-950 border border-slate-800 text-slate-200 focus:ring-amber-500 focus:border-amber-500 text-sm h-10 rounded-lg px-3 outline-none"
+                  className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-200 focus:ring-amber-500 focus:border-amber-500 text-sm h-10 rounded-lg px-3 outline-none"
                   {...register("schedule_type")}
                 >
                   <option value="now">Send Immediately</option>
@@ -432,10 +432,10 @@ export default function CampaignsPage() {
 
               {watchScheduleType === "later" && (
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-0.5">Date & Time</label>
+                  <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest pl-0.5">Date & Time</label>
                   <Input
                     type="datetime-local"
-                    className="bg-slate-950 border-slate-800 text-slate-200 focus-visible:ring-amber-500 text-sm h-10 rounded-lg"
+                    className="bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-200 focus-visible:ring-amber-500 text-sm h-10 rounded-lg"
                     {...register("scheduled_at")}
                   />
                 </div>
@@ -443,7 +443,7 @@ export default function CampaignsPage() {
             </div>
 
             {/* Modal Footer */}
-            <DialogFooter className="pt-4 border-t border-slate-800/80 gap-2">
+            <DialogFooter className="pt-4 border-t border-slate-200 dark:border-slate-800/80 gap-2">
               <Button
                 type="button"
                 variant="outline"
@@ -451,7 +451,7 @@ export default function CampaignsPage() {
                   setOpenCreate(false);
                   reset();
                 }}
-                className="border-slate-800 text-slate-300 hover:bg-slate-950"
+                className="border-slate-200 dark:border-slate-800 text-slate-650 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-950"
               >
                 Cancel
               </Button>

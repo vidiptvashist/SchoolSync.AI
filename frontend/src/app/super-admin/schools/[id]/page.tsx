@@ -190,7 +190,7 @@ export default function SchoolDetailPage() {
       <div className="flex h-64 w-full items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <div className="h-10 w-10 animate-spin rounded-full border-4 border-amber-500 border-t-transparent"></div>
-          <p className="text-sm font-medium text-slate-400">Loading school profile...</p>
+          <p className="text-sm font-semibold text-slate-500 dark:text-slate-400 font-mono">Loading school profile...</p>
         </div>
       </div>
     );
@@ -198,10 +198,10 @@ export default function SchoolDetailPage() {
 
   if (error || !school) {
     return (
-      <div className="text-center py-12 border border-dashed border-slate-800 rounded-xl bg-slate-905/10 max-w-xl mx-auto">
+      <div className="text-center py-12 border border-dashed border-slate-205 dark:border-slate-800 rounded-xl bg-slate-50 dark:bg-slate-900/10 max-w-xl mx-auto">
         <AlertTriangle className="h-10 w-10 text-rose-500 mx-auto mb-3" />
-        <h3 className="text-lg font-bold text-white uppercase tracking-wider">School profile not found</h3>
-        <p className="text-slate-400 text-sm mt-1 mb-6">{error || "The requested school record could not be resolved."}</p>
+        <h3 className="text-lg font-bold text-slate-900 dark:text-white uppercase tracking-wider">School profile not found</h3>
+        <p className="text-slate-500 dark:text-slate-400 text-sm mt-1 mb-6">{error || "The requested school record could not be resolved."}</p>
         <Link href="/super-admin/dashboard" passHref>
           <Button className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2 rounded-lg cursor-pointer">
             Back to Dashboard
@@ -216,26 +216,26 @@ export default function SchoolDetailPage() {
     const s = status.toLowerCase();
     switch (s) {
       case "dialing":
-        return <Badge className="bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-full px-2 py-0.5 text-[10px] font-extrabold uppercase">Dialing</Badge>;
+        return <Badge className="bg-amber-550/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 rounded-full px-2 py-0.5 text-[10px] font-extrabold uppercase">Dialing</Badge>;
       case "answered":
-        return <Badge className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full px-2 py-0.5 text-[10px] font-extrabold uppercase">Answered</Badge>;
+        return <Badge className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 rounded-full px-2 py-0.5 text-[10px] font-extrabold uppercase">Answered</Badge>;
       case "missed":
-        return <Badge className="bg-slate-500/10 text-slate-400 border border-slate-500/20 rounded-full px-2 py-0.5 text-[10px] font-extrabold uppercase">Missed</Badge>;
+        return <Badge className="bg-slate-500/10 text-slate-600 dark:text-slate-400 border border-slate-500/20 rounded-full px-2 py-0.5 text-[10px] font-extrabold uppercase">Missed</Badge>;
       case "busy":
-        return <Badge className="bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded-full px-2 py-0.5 text-[10px] font-extrabold uppercase">Busy</Badge>;
+        return <Badge className="bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 rounded-full px-2 py-0.5 text-[10px] font-extrabold uppercase">Busy</Badge>;
       case "failed":
-        return <Badge className="bg-rose-500/10 text-rose-400 border border-rose-500/20 rounded-full px-2 py-0.5 text-[10px] font-extrabold uppercase">Failed</Badge>;
+        return <Badge className="bg-rose-500/10 text-rose-500 dark:text-rose-400 border border-rose-500/20 rounded-full px-2 py-0.5 text-[10px] font-extrabold uppercase">Failed</Badge>;
       default:
-        return <Badge className="bg-slate-500/10 text-slate-300 border border-slate-500/20 rounded-full px-2 py-0.5 text-[10px] font-extrabold uppercase">{status}</Badge>;
+        return <Badge className="bg-slate-500/10 text-slate-700 dark:text-slate-300 border border-slate-500/20 rounded-full px-2 py-0.5 text-[10px] font-extrabold uppercase">{status}</Badge>;
     }
   };
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto">
+    <div className="space-y-6 max-w-7xl mx-auto animate-fadeIn duration-300">
       
       {/* Back button and Header */}
-      <div className="flex flex-col gap-4 pb-6 border-b border-slate-800">
-        <Link href="/super-admin/dashboard" className="text-xs font-bold text-slate-400 hover:text-amber-500 flex items-center gap-1.5 transition-all">
+      <div className="flex flex-col gap-4 pb-6 border-b border-slate-200 dark:border-slate-800">
+        <Link href="/super-admin/dashboard" className="text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-amber-500 flex items-center gap-1.5 transition-all">
           <ArrowLeft className="h-4 w-4" />
           Back to Dashboard
         </Link>
@@ -243,31 +243,31 @@ export default function SchoolDetailPage() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <div className="flex items-center gap-3">
-              <h1 className="text-3xl font-extrabold tracking-tight text-white">{school.name}</h1>
+              <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">{school.name}</h1>
               <Badge className={`rounded-full px-2.5 py-0.5 text-[10px] font-extrabold uppercase border ${
                 school.is_active 
-                  ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" 
-                  : "bg-rose-500/10 text-rose-400 border-rose-500/20"
+                  ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20" 
+                  : "bg-rose-500/10 text-rose-500 dark:text-rose-400 border-rose-500/20"
               }`}>
                 {school.is_active ? "Active" : "Inactive"}
               </Badge>
             </div>
             
-            <div className="flex flex-wrap gap-4 mt-3 text-xs font-medium text-slate-400">
+            <div className="flex flex-wrap gap-4 mt-3 text-xs font-semibold text-slate-500 dark:text-slate-400">
               {school.city && (
                 <span className="flex items-center gap-1">
-                  <MapPin className="h-3.5 w-3.5 text-slate-500" />
+                  <MapPin className="h-3.5 w-3.5 text-slate-400 dark:text-slate-550" />
                   {school.city}
                 </span>
               )}
               {school.phone && (
-                <span className="flex items-center gap-1">
-                  <Phone className="h-3.5 w-3.5 text-slate-500" />
+                <span className="flex items-center gap-1 font-mono">
+                  <Phone className="h-3.5 w-3.5 text-slate-400 dark:text-slate-550" />
                   Contact/SIP: {school.phone}
                 </span>
               )}
               <span className="flex items-center gap-1">
-                <Calendar className="h-3.5 w-3.5 text-slate-500" />
+                <Calendar className="h-3.5 w-3.5 text-slate-400 dark:text-slate-550" />
                 Created: {new Date(school.created_at).toLocaleDateString()}
               </span>
             </div>
@@ -290,39 +290,39 @@ export default function SchoolDetailPage() {
         <div className="lg:col-span-3 space-y-6">
           
           {/* Administrators Section */}
-          <Card className="bg-[#1e293b] border-slate-800">
-            <CardHeader className="pb-4 border-b border-slate-800 flex flex-row items-center justify-between">
+          <Card className="glass-panel border-slate-200 dark:border-slate-800">
+            <CardHeader className="pb-4 border-b border-slate-200 dark:border-slate-800 flex flex-row items-center justify-between">
               <div>
-                <CardTitle className="text-md font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                <CardTitle className="text-md font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
                   <Users className="h-4.5 w-4.5 text-amber-500" />
                   Administrator Accounts
                 </CardTitle>
-                <CardDescription className="text-xs text-slate-400 font-medium">Administrative users associated with this school tenant.</CardDescription>
+                <CardDescription className="text-xs text-slate-505 dark:text-slate-400 font-medium">Administrative users associated with this school tenant.</CardDescription>
               </div>
             </CardHeader>
             <CardContent className="pt-6">
               {school.admins && school.admins.length > 0 ? (
-                <div className="overflow-hidden rounded-lg border border-slate-800">
+                <div className="overflow-hidden rounded-lg border border-slate-200 dark:border-slate-800">
                   <Table>
-                    <TableHeader className="bg-slate-900/60">
-                      <TableRow className="border-b border-slate-800">
-                        <TableHead className="text-slate-300 font-bold text-xs uppercase tracking-wider py-3.5 pl-5">Email Address</TableHead>
-                        <TableHead className="text-slate-300 font-bold text-xs uppercase tracking-wider py-3.5 text-right">Created At</TableHead>
-                        <TableHead className="text-slate-300 font-bold text-xs uppercase tracking-wider py-3.5 text-center pr-5 w-24">Status</TableHead>
+                    <TableHeader className="bg-slate-50 dark:bg-slate-950/60 border-b border-slate-200 dark:border-slate-800">
+                      <TableRow className="border-b border-slate-200 dark:border-slate-800 hover:bg-transparent">
+                        <TableHead className="text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-wider py-3.5 pl-5">Email Address</TableHead>
+                        <TableHead className="text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-wider py-3.5 text-right">Created At</TableHead>
+                        <TableHead className="text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-wider py-3.5 text-center pr-5 w-24">Status</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {school.admins.map((admin) => (
-                        <TableRow key={admin.id} className="hover:bg-slate-800/40 border-b border-slate-800/80 transition-colors">
-                          <TableCell className="font-semibold text-white py-3.5 pl-5">{admin.email}</TableCell>
-                          <TableCell className="text-right text-slate-400 text-xs font-semibold py-3.5">
+                        <TableRow key={admin.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/40 border-b border-slate-100 dark:border-slate-800/80 transition-colors">
+                          <TableCell className="font-bold text-slate-900 dark:text-white py-3.5 pl-5">{admin.email}</TableCell>
+                          <TableCell className="text-right text-slate-500 dark:text-slate-400 text-xs font-semibold py-3.5">
                             {new Date(admin.created_at).toLocaleDateString()}
                           </TableCell>
                           <TableCell className="text-center py-3.5 pr-5">
                             <Badge className={`rounded-full px-2.5 py-0.5 text-[9px] font-extrabold uppercase border ${
                               admin.is_active 
-                                ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" 
-                                : "bg-rose-500/10 text-rose-400 border-rose-500/20"
+                                ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20" 
+                                : "bg-rose-500/10 text-rose-500 dark:text-rose-400 border-rose-500/20"
                             }`}>
                               {admin.is_active ? "Active" : "Inactive"}
                             </Badge>
@@ -333,7 +333,7 @@ export default function SchoolDetailPage() {
                   </Table>
                 </div>
               ) : (
-                <div className="text-center py-6 text-sm text-slate-500 font-medium">
+                <div className="text-center py-6 text-sm text-slate-450 dark:text-slate-500 font-semibold">
                   No administrative accounts configured for this school.
                 </div>
               )}
@@ -341,38 +341,38 @@ export default function SchoolDetailPage() {
           </Card>
 
           {/* Call Logs Section */}
-          <Card className="bg-[#1e293b] border-slate-800">
-            <CardHeader className="pb-4 border-b border-slate-800 flex flex-row items-center justify-between">
+          <Card className="glass-panel border-slate-200 dark:border-slate-800">
+            <CardHeader className="pb-4 border-b border-slate-200 dark:border-slate-800 flex flex-row items-center justify-between">
               <div>
-                <CardTitle className="text-md font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                <CardTitle className="text-md font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
                   <PhoneCall className="h-4.5 w-4.5 text-amber-500" />
                   Recent Voice Logs
                 </CardTitle>
-                <CardDescription className="text-xs text-slate-400 font-medium">Audit logs of the last 10 incoming and outgoing calls.</CardDescription>
+                <CardDescription className="text-xs text-slate-505 dark:text-slate-400 font-medium">Audit logs of the last 10 incoming and outgoing calls.</CardDescription>
               </div>
             </CardHeader>
             <CardContent className="pt-6">
               {school.last_10_calls && school.last_10_calls.length > 0 ? (
-                <div className="overflow-hidden rounded-lg border border-slate-800">
+                <div className="overflow-hidden rounded-lg border border-slate-200 dark:border-slate-800">
                   <Table>
-                    <TableHeader className="bg-slate-900/60">
-                      <TableRow className="border-b border-slate-800">
-                        <TableHead className="text-slate-300 font-bold text-xs uppercase tracking-wider py-3.5 pl-5">Caller Phone</TableHead>
-                        <TableHead className="text-slate-300 font-bold text-xs uppercase tracking-wider py-3.5">Direction</TableHead>
-                        <TableHead className="text-slate-300 font-bold text-xs uppercase tracking-wider py-3.5 text-center">Duration</TableHead>
-                        <TableHead className="text-slate-300 font-bold text-xs uppercase tracking-wider py-3.5 text-right">Timestamp</TableHead>
-                        <TableHead className="text-slate-300 font-bold text-xs uppercase tracking-wider py-3.5 text-center pr-5">Status</TableHead>
+                    <TableHeader className="bg-slate-50 dark:bg-slate-950/60 border-b border-slate-200 dark:border-slate-800">
+                      <TableRow className="border-b border-slate-200 dark:border-slate-800 hover:bg-transparent">
+                        <TableHead className="text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-wider py-3.5 pl-5">Caller Phone</TableHead>
+                        <TableHead className="text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-wider py-3.5">Direction</TableHead>
+                        <TableHead className="text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-wider py-3.5 text-center">Duration</TableHead>
+                        <TableHead className="text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-wider py-3.5 text-right">Timestamp</TableHead>
+                        <TableHead className="text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-wider py-3.5 text-center pr-5">Status</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {school.last_10_calls.map((log) => (
-                        <TableRow key={log.id} className="hover:bg-slate-800/40 border-b border-slate-800/80 transition-colors">
-                          <TableCell className="font-semibold text-white py-3.5 pl-5 font-mono text-xs">{log.caller_phone}</TableCell>
-                          <TableCell className="py-3.5 text-slate-300 text-xs font-semibold capitalize">{log.direction}</TableCell>
-                          <TableCell className="text-center font-mono text-xs text-slate-400 py-3.5">
+                        <TableRow key={log.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/40 border-b border-slate-100 dark:border-slate-800/80 transition-colors">
+                          <TableCell className="font-bold text-slate-900 dark:text-white py-3.5 pl-5 font-mono text-xs">{log.caller_phone}</TableCell>
+                          <TableCell className="py-3.5 text-slate-800 dark:text-slate-350 text-xs font-bold capitalize">{log.direction}</TableCell>
+                          <TableCell className="text-center font-mono text-xs text-slate-600 dark:text-slate-400 py-3.5 font-semibold">
                             {log.status.toLowerCase() === "answered" ? `${log.duration_seconds}s` : "—"}
                           </TableCell>
-                          <TableCell className="text-right text-slate-400 text-xs font-semibold py-3.5">
+                          <TableCell className="text-right text-slate-500 dark:text-slate-400 text-xs font-semibold py-3.5">
                             {new Date(log.created_at).toLocaleString([], { hour: '2-digit', minute: '2-digit', year: 'numeric', month: '2-digit', day: '2-digit' })}
                           </TableCell>
                           <TableCell className="text-center py-3.5 pr-5">
@@ -384,7 +384,7 @@ export default function SchoolDetailPage() {
                   </Table>
                 </div>
               ) : (
-                <div className="text-center py-8 text-sm text-slate-500 font-medium">
+                <div className="text-center py-8 text-sm text-slate-450 dark:text-slate-500 font-semibold">
                   No call records logged for this school tenant yet.
                 </div>
               )}
@@ -397,34 +397,34 @@ export default function SchoolDetailPage() {
         <div className="lg:col-span-2 space-y-6">
           
           {/* Monthly Call Volume Chart */}
-          <Card className="bg-[#1e293b] border-slate-800">
-            <CardHeader className="pb-4 border-b border-slate-800">
-              <CardTitle className="text-md font-bold text-white uppercase tracking-wider flex items-center gap-2">
+          <Card className="glass-panel border-slate-200 dark:border-slate-800">
+            <CardHeader className="pb-4 border-b border-slate-200 dark:border-slate-800">
+              <CardTitle className="text-md font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
                 <Activity className="h-4.5 w-4.5 text-amber-500" />
                 Call Volume History
               </CardTitle>
-              <CardDescription className="text-xs text-slate-400 font-medium">6-month monthly total calls breakdown.</CardDescription>
+              <CardDescription className="text-xs text-slate-500 dark:text-slate-400 font-medium">6-month monthly total calls breakdown.</CardDescription>
             </CardHeader>
             <CardContent className="pt-6">
               {isMounted && school.monthly_volume && school.monthly_volume.length > 0 ? (
                 <div className="w-full">
                   <ResponsiveContainer width="100%" height={240}>
                     <BarChart data={school.monthly_volume} margin={{ top: 10, right: 10, left: -25, bottom: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#334155" vertical={false} />
+                      <CartesianGrid strokeDasharray="3 3" className="stroke-slate-200 dark:stroke-slate-700" vertical={false} />
                       <XAxis dataKey="month" stroke="#94a3b8" fontSize={10} fontWeight={600} tickLine={false} axisLine={false} />
                       <YAxis stroke="#94a3b8" fontSize={10} fontWeight={600} tickLine={false} axisLine={false} />
                       <Tooltip
-                        contentStyle={{ backgroundColor: "#1e293b", borderColor: "#334155", borderRadius: "8px" }}
-                        labelStyle={{ color: "#ffffff", fontWeight: "bold", fontSize: "11px" }}
-                        itemStyle={{ color: "#f59e0b", fontSize: "11px", fontWeight: "bold" }}
-                        cursor={{ fill: '#334155', opacity: 0.2 }}
+                        contentStyle={{ backgroundColor: "var(--color-popover)", color: "var(--color-popover-foreground)", border: "1px solid var(--color-border)", borderRadius: "8px" }}
+                        labelStyle={{ color: "var(--foreground)", fontWeight: "bold", fontSize: "11px" }}
+                        itemStyle={{ color: "#d97706", fontSize: "11px", fontWeight: "bold" }}
+                        cursor={{ fill: 'var(--color-accent)', opacity: 0.2 }}
                       />
-                      <Bar dataKey="count" fill="#f59e0b" radius={[4, 4, 0, 0]} barSize={32} />
+                      <Bar dataKey="count" fill="#d97706" radius={[4, 4, 0, 0]} barSize={32} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
               ) : (
-                <div className="flex h-48 w-full items-center justify-center text-sm text-slate-500 font-medium">
+                <div className="flex h-48 w-full items-center justify-center text-sm text-slate-450 dark:text-slate-500 font-semibold">
                   Loading volume history...
                 </div>
               )}
@@ -432,23 +432,23 @@ export default function SchoolDetailPage() {
           </Card>
 
           {/* Danger Zone */}
-          <Card className="bg-[#1e293b] border-red-500/20 text-slate-100 shadow-md">
-            <CardHeader className="pb-4 border-b border-red-500/20 bg-red-500/5">
-              <CardTitle className="text-md font-bold text-rose-500 uppercase tracking-wider flex items-center gap-2">
+          <Card className="border-red-500/20 text-slate-900 dark:text-slate-100 shadow-md glass-panel">
+            <CardHeader className="pb-4 border-b border-red-500/20 bg-rose-500/5 dark:bg-rose-500/5">
+              <CardTitle className="text-md font-bold text-rose-500 dark:text-rose-455 uppercase tracking-wider flex items-center gap-2">
                 <Shield className="h-4.5 w-4.5" />
                 Danger Administration Zone
               </CardTitle>
-              <CardDescription className="text-xs text-slate-400 font-medium">Highly destructive tenant actions. Proceed with absolute caution.</CardDescription>
+              <CardDescription className="text-xs text-slate-500 dark:text-slate-400 font-medium">Highly destructive tenant actions. Proceed with absolute caution.</CardDescription>
             </CardHeader>
             <CardContent className="pt-6 space-y-4">
               
               {/* Activate / Deactivate Toggle */}
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 bg-slate-900/30 border border-slate-800 rounded-lg">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 bg-slate-50 dark:bg-slate-900/30 border border-slate-200 dark:border-slate-800 rounded-lg">
                 <div>
-                  <h4 className="text-xs font-bold text-white uppercase tracking-wide">
+                  <h4 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wide">
                     {school.is_active ? "Deactivate Tenant Account" : "Activate Tenant Account"}
                   </h4>
-                  <p className="text-[10px] text-slate-400 font-semibold mt-0.5 leading-relaxed">
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold mt-0.5 leading-relaxed">
                     {school.is_active 
                       ? "Temporarily disable school administration dashboards and outbound call lines."
                       : "Re-enable access and allow dashboard auth and VoIP services to resume."}
@@ -458,8 +458,8 @@ export default function SchoolDetailPage() {
                   onClick={() => setIsStatusConfirmOpen(true)}
                   className={`text-xs font-bold px-4 h-9 tracking-wide self-start sm:self-auto cursor-pointer ${
                     school.is_active 
-                      ? "bg-rose-500/10 border border-rose-500/30 text-rose-400 hover:bg-rose-500 hover:text-white hover:border-transparent"
-                      : "bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500 hover:text-slate-950 hover:border-transparent"
+                      ? "bg-rose-500/10 border border-rose-500/30 text-rose-500 dark:text-rose-400 hover:bg-rose-500 hover:text-white hover:border-transparent"
+                      : "bg-emerald-500/10 border border-emerald-500/30 text-emerald-650 dark:text-emerald-400 hover:bg-emerald-500 hover:text-slate-950 hover:border-transparent"
                   }`}
                 >
                   {school.is_active ? "Deactivate" : "Activate"}
@@ -467,16 +467,16 @@ export default function SchoolDetailPage() {
               </div>
 
               {/* Soft Delete */}
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 bg-slate-900/30 border border-slate-800 rounded-lg">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 bg-slate-50 dark:bg-slate-900/30 border border-slate-200 dark:border-slate-800 rounded-lg">
                 <div>
-                  <h4 className="text-xs font-bold text-rose-500 uppercase tracking-wide">Soft Delete School</h4>
-                  <p className="text-[10px] text-slate-400 font-semibold mt-0.5 leading-relaxed">
+                  <h4 className="text-xs font-bold text-rose-500 dark:text-rose-455 uppercase tracking-wide">Soft Delete School</h4>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold mt-0.5 leading-relaxed">
                     Deactivate school and flag its name as deleted. Historical logs are preserved, but login credentials are permanently destroyed.
                   </p>
                 </div>
                 <Button
                   onClick={() => setIsDeleteConfirmOpen(true)}
-                  className="bg-rose-500/10 border border-rose-500/30 text-rose-400 hover:bg-rose-500 hover:text-white hover:border-transparent text-xs font-bold px-4 h-9 tracking-wide self-start sm:self-auto cursor-pointer"
+                  className="bg-rose-500/10 border border-rose-500/30 text-rose-500 dark:text-rose-400 hover:bg-rose-500 hover:text-white hover:border-transparent text-xs font-bold px-4 h-9 tracking-wide self-start sm:self-auto cursor-pointer"
                 >
                   <Trash2 className="h-3.5 w-3.5 mr-1" />
                   Delete School
@@ -492,52 +492,52 @@ export default function SchoolDetailPage() {
 
       {/* Edit School Details Dialog */}
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-        <DialogContent className="bg-[#1e293b] border border-slate-800 text-slate-100 w-full sm:max-w-md">
-          <DialogHeader className="pb-4 border-b border-slate-800">
-            <DialogTitle className="text-md font-bold text-white uppercase tracking-wider flex items-center gap-2">
+        <DialogContent className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 w-full sm:max-w-md">
+          <DialogHeader className="pb-4 border-b border-slate-200 dark:border-slate-800">
+            <DialogTitle className="text-md font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
               <Building2 className="h-5 w-5 text-amber-500" />
               Edit School Profile
             </DialogTitle>
           </DialogHeader>
           <form onSubmit={handleUpdateSchool} className="space-y-4 py-4">
             <div className="space-y-1.5">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">School Name *</label>
+              <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider pl-0.5">School Name *</label>
               <Input
                 value={editName}
                 onChange={(e) => setEditName(e.target.value)}
                 placeholder="e.g. Delhi Public School"
-                className="bg-slate-900 border-slate-800 text-slate-100 focus-visible:ring-amber-500 text-sm h-10 rounded-lg font-medium"
+                className="bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-200 focus-visible:ring-amber-500 text-sm h-10 rounded-lg font-bold"
                 required
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">City</label>
+              <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider pl-0.5">City</label>
               <Input
                 value={editCity}
                 onChange={(e) => setEditCity(e.target.value)}
                 placeholder="e.g. New Delhi"
-                className="bg-slate-900 border-slate-800 text-slate-100 focus-visible:ring-amber-500 text-sm h-10 rounded-lg font-medium"
+                className="bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-200 focus-visible:ring-amber-500 text-sm h-10 rounded-lg font-bold"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Contact Phone / SIP Number</label>
+              <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider pl-0.5">Contact Phone / SIP Number</label>
               <Input
                 value={editPhone}
                 onChange={(e) => setEditPhone(e.target.value)}
                 placeholder="e.g. +918065481432"
-                className="bg-slate-900 border-slate-800 text-slate-100 focus-visible:ring-amber-500 text-sm h-10 rounded-lg font-medium"
+                className="bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-200 focus-visible:ring-amber-500 text-sm h-10 rounded-lg font-bold"
               />
             </div>
 
-            <div className="flex justify-end gap-3 pt-4 border-t border-slate-800">
+            <div className="flex justify-end gap-3 pt-4 border-t border-slate-200 dark:border-slate-800">
               <Button
                 type="button"
                 variant="outline"
                 disabled={editLoading}
                 onClick={() => setIsEditOpen(false)}
-                className="border-slate-700 text-slate-300 hover:bg-slate-800 text-xs font-semibold h-9 px-4 cursor-pointer"
+                className="border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs font-semibold h-9 px-4 cursor-pointer"
               >
                 Cancel
               </Button>
@@ -555,27 +555,27 @@ export default function SchoolDetailPage() {
 
       {/* Confirmation Dialog for Status Change */}
       <Dialog open={isStatusConfirmOpen} onOpenChange={setIsStatusConfirmOpen}>
-        <DialogContent className="bg-[#1e293b] border border-slate-800 text-slate-100 w-full max-w-md">
-          <DialogHeader className="pb-4 border-b border-slate-800 space-y-2">
-            <DialogTitle className="text-md font-bold text-white uppercase tracking-wider flex items-center gap-2.5">
+        <DialogContent className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 w-full max-w-md">
+          <DialogHeader className="pb-4 border-b border-slate-200 dark:border-slate-800 space-y-2">
+            <DialogTitle className="text-md font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2.5">
               <AlertTriangle className="h-5 w-5 text-rose-500" />
               Confirm Status Change
             </DialogTitle>
           </DialogHeader>
-          <div className="py-5 text-sm text-slate-300 font-medium leading-relaxed">
-            Are you sure you want to {school.is_active ? "DEACTIVATE" : "ACTIVATE"} the school tenant <strong className="text-white">'{school.name}'</strong>?
+          <div className="py-5 text-sm text-slate-700 dark:text-slate-300 font-semibold leading-relaxed">
+            Are you sure you want to {school.is_active ? "DEACTIVATE" : "ACTIVATE"} the school tenant <strong className="text-slate-950 dark:text-white">'{school.name}'</strong>?
             {school.is_active && (
-              <p className="mt-2 text-xs text-rose-400 font-semibold bg-rose-500/10 border border-rose-500/20 p-3 rounded-lg flex gap-2">
+              <p className="mt-2 text-xs text-rose-600 dark:text-rose-400 font-semibold bg-rose-500/10 border border-rose-500/20 p-3 rounded-lg flex gap-2">
                 Warning: Deactivating the school immediately blocks dashboard logins and voice-agent caller routes for this tenant.
               </p>
             )}
           </div>
-          <div className="flex justify-end gap-3 pt-4 border-t border-slate-800">
+          <div className="flex justify-end gap-3 pt-4 border-t border-slate-200 dark:border-slate-800">
             <Button
               variant="outline"
               disabled={statusLoading}
               onClick={() => setIsStatusConfirmOpen(false)}
-              className="border-slate-700 text-slate-300 hover:bg-slate-800 text-xs font-semibold h-9 px-4 cursor-pointer"
+              className="border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs font-semibold h-9 px-4 cursor-pointer"
             >
               Cancel
             </Button>
@@ -596,27 +596,27 @@ export default function SchoolDetailPage() {
 
       {/* Confirmation Dialog for Soft Delete */}
       <Dialog open={isDeleteConfirmOpen} onOpenChange={setIsDeleteConfirmOpen}>
-        <DialogContent className="bg-[#1e293b] border border-slate-800 text-slate-100 w-full max-w-md">
-          <DialogHeader className="pb-4 border-b border-slate-800 space-y-2">
-            <DialogTitle className="text-md font-bold text-rose-500 uppercase tracking-wider flex items-center gap-2.5">
+        <DialogContent className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 w-full max-w-md">
+          <DialogHeader className="pb-4 border-b border-slate-200 dark:border-slate-800 space-y-2">
+            <DialogTitle className="text-md font-bold text-rose-500 dark:text-rose-455 uppercase tracking-wider flex items-center gap-2.5">
               <AlertTriangle className="h-5 w-5 text-rose-500 animate-bounce" />
               Confirm Soft Delete
             </DialogTitle>
           </DialogHeader>
-          <div className="py-5 text-sm text-slate-300 font-medium leading-relaxed space-y-3">
+          <div className="py-5 text-sm text-slate-700 dark:text-slate-300 font-semibold leading-relaxed space-y-3">
             <p>
-              Are you absolutely sure you want to soft delete <strong className="text-white">'{school.name}'</strong>?
+              Are you absolutely sure you want to soft delete <strong className="text-slate-950 dark:text-white">'{school.name}'</strong>?
             </p>
-            <p className="text-xs text-rose-400 font-semibold bg-rose-500/10 border border-rose-500/20 p-3 rounded-lg">
+            <p className="text-xs text-rose-600 dark:text-rose-400 font-semibold bg-rose-500/10 border border-rose-500/20 p-3 rounded-lg">
               This action deactivates the tenant, updates the school name to include a deleted timestamp, and disables logins permanently. This cannot be undone from the UI dashboard.
             </p>
           </div>
-          <div className="flex justify-end gap-3 pt-4 border-t border-slate-800">
+          <div className="flex justify-end gap-3 pt-4 border-t border-slate-200 dark:border-slate-800">
             <Button
               variant="outline"
               disabled={deleteLoading}
               onClick={() => setIsDeleteConfirmOpen(false)}
-              className="border-slate-700 text-slate-300 hover:bg-slate-800 text-xs font-semibold h-9 px-4 cursor-pointer"
+              className="border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs font-semibold h-9 px-4 cursor-pointer"
             >
               Cancel
             </Button>

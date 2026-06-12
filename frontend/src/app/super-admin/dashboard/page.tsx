@@ -116,7 +116,7 @@ export default function SuperAdminDashboard() {
 
   const handleCopyCredentials = () => {
     if (!createdCredentials) return;
-    const shareText = `Login URL: app.schoolvoice.in/login\nEmail: ${createdCredentials.admin_user.email}\nPassword: ${createdCredentials.generated_password}`;
+    const shareText = `Login URL: app.schoolsync.ai/login\nEmail: ${createdCredentials.admin_user.email}\nPassword: ${createdCredentials.generated_password}`;
     navigator.clipboard.writeText(shareText);
     setCopied(true);
     toast.success("Credentials copied to clipboard!");
@@ -153,13 +153,13 @@ export default function SuperAdminDashboard() {
   };
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto">
+    <div className="space-y-6 max-w-7xl mx-auto animate-fadeIn duration-300">
       
       {/* Header bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-slate-200 dark:border-slate-800">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-white">SchoolVoice — Platform Overview</h1>
-          <p className="text-sm text-slate-400 font-medium mt-1">Global administrative console to manage tenant schools, credentials, and platform usage.</p>
+          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">SchoolSync.AI — Platform Overview</h1>
+          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium mt-1">Global administrative console to manage tenant schools, credentials, and platform usage.</p>
         </div>
 
         {/* Add School Sheet Trigger */}
@@ -173,73 +173,73 @@ export default function SuperAdminDashboard() {
             }
           />
           
-          <SheetContent className="bg-[#1e293b] border-l border-slate-800 text-slate-100 w-full sm:max-w-md">
-            <SheetHeader className="space-y-2 pb-6 border-b border-slate-800">
-              <SheetTitle className="text-lg font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                <Building2 className="h-5 w-5 text-amber-500" />
+          <SheetContent className="bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 w-full sm:max-w-md">
+            <SheetHeader className="space-y-2 pb-6 border-b border-slate-200 dark:border-slate-800">
+              <SheetTitle className="text-lg font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+                <Building2 className="h-5 w-5 text-amber-500 dark:text-amber-400" />
                 Register New School
               </SheetTitle>
-              <SheetDescription className="text-xs text-slate-400 font-medium">
+              <SheetDescription className="text-xs text-slate-500 dark:text-slate-400 font-medium">
                 Add a new school tenant and automatically provision its first admin user in a secure transaction.
               </SheetDescription>
             </SheetHeader>
             
             <form onSubmit={handleCreateSchool} className="space-y-5 py-6">
               <div className="space-y-1.5">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">School Name *</label>
+                <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider pl-0.5">School Name *</label>
                 <Input
                   placeholder="e.g. Delhi Public School"
                   value={newSchoolName}
                   onChange={(e) => setNewSchoolName(e.target.value)}
-                  className="bg-slate-900 border-slate-800 text-slate-100 focus-visible:ring-amber-500 text-sm h-10 rounded-lg"
+                  className="bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-600 focus-visible:ring-amber-500 text-sm h-10 rounded-lg"
                   required
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">City</label>
+                <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider pl-0.5">City</label>
                 <Input
                   placeholder="e.g. New Delhi"
                   value={newCity}
                   onChange={(e) => setNewCity(e.target.value)}
-                  className="bg-slate-900 border-slate-800 text-slate-100 focus-visible:ring-amber-500 text-sm h-10 rounded-lg"
+                  className="bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-600 focus-visible:ring-amber-500 text-sm h-10 rounded-lg"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Contact Phone / SIP Number</label>
+                <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider pl-0.5">Contact Phone / SIP Number</label>
                 <Input
                   placeholder="e.g. +918065481432"
                   value={newSchoolPhone}
                   onChange={(e) => setNewSchoolPhone(e.target.value)}
-                  className="bg-slate-900 border-slate-800 text-slate-100 focus-visible:ring-amber-500 text-sm h-10 rounded-lg"
+                  className="bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-600 focus-visible:ring-amber-500 text-sm h-10 rounded-lg"
                 />
               </div>
 
-              <div className="pt-4 border-t border-slate-800 space-y-4">
-                <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+              <div className="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-4">
+                <h3 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
                   <UserCheck className="h-4 w-4 text-amber-500" />
                   Primary School Admin
                 </h3>
                 
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Admin Full Name</label>
+                  <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider pl-0.5">Admin Full Name</label>
                   <Input
                     placeholder="e.g. Principal Dr. Sharma"
                     value={newAdminName}
                     onChange={(e) => setNewAdminName(e.target.value)}
-                    className="bg-slate-900 border-slate-800 text-slate-100 focus-visible:ring-amber-500 text-sm h-10 rounded-lg"
+                    className="bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-600 focus-visible:ring-amber-500 text-sm h-10 rounded-lg"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Admin Email Address *</label>
+                  <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider pl-0.5">Admin Email Address *</label>
                   <Input
                     type="email"
                     placeholder="e.g. principal@dpschool.com"
                     value={newAdminEmail}
                     onChange={(e) => setNewAdminEmail(e.target.value)}
-                    className="bg-slate-900 border-slate-800 text-slate-100 focus-visible:ring-amber-500 text-sm h-10 rounded-lg"
+                    className="bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-600 focus-visible:ring-amber-500 text-sm h-10 rounded-lg"
                     required
                   />
                 </div>
@@ -268,71 +268,71 @@ export default function SuperAdminDashboard() {
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         
         {/* KPI 1: Total Schools */}
-        <Card className="bg-[#1e293b] border-slate-800 text-slate-100 hover:border-amber-500/30 transition-all duration-300">
+        <Card className="glass-panel border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 hover:border-amber-500/30 transition-all duration-300">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-            <CardTitle className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Schools</CardTitle>
+            <CardTitle className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Schools</CardTitle>
             <div className="p-2 bg-amber-500/10 rounded-lg text-amber-500 border border-amber-500/20">
               <Building2 className="h-4.5 w-4.5" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-extrabold tracking-tight text-white">{loading ? "..." : totalSchools}</div>
-            <p className="text-[10px] text-slate-500 font-semibold mt-1">Tenant partitions configured</p>
+            <div className="text-3xl font-extrabold tracking-tight text-slate-905 dark:text-white">{loading ? "..." : totalSchools}</div>
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold mt-1">Tenant partitions configured</p>
           </CardContent>
         </Card>
 
         {/* KPI 2: Active Schools */}
-        <Card className="bg-[#1e293b] border-slate-800 text-slate-100 hover:border-emerald-500/30 transition-all duration-300">
+        <Card className="glass-panel border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 hover:border-emerald-500/30 transition-all duration-300">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-            <CardTitle className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Active Schools</CardTitle>
+            <CardTitle className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Active Schools</CardTitle>
             <div className="p-2 bg-emerald-500/10 rounded-lg text-emerald-400 border border-emerald-500/20">
               <CheckCircle className="h-4.5 w-4.5" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-extrabold tracking-tight text-white">{loading ? "..." : activeSchools}</div>
-            <p className="text-[10px] text-slate-500 font-semibold mt-1">Schools handling callers</p>
+            <div className="text-3xl font-extrabold tracking-tight text-slate-905 dark:text-white">{loading ? "..." : activeSchools}</div>
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold mt-1">Schools handling callers</p>
           </CardContent>
         </Card>
 
         {/* KPI 3: Total Calls */}
-        <Card className="bg-[#1e293b] border-slate-800 text-slate-100 hover:border-amber-500/30 transition-all duration-300">
+        <Card className="glass-panel border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 hover:border-amber-500/30 transition-all duration-300">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-            <CardTitle className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Calls (Month)</CardTitle>
+            <CardTitle className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Calls (Month)</CardTitle>
             <div className="p-2 bg-amber-500/10 rounded-lg text-amber-500 border border-amber-500/20">
               <PhoneCall className="h-4.5 w-4.5" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-extrabold tracking-tight text-white">{loading ? "..." : totalCallsMonth}</div>
-            <p className="text-[10px] text-slate-500 font-semibold mt-1">Incoming / Outbound this month</p>
+            <div className="text-3xl font-extrabold tracking-tight text-slate-905 dark:text-white">{loading ? "..." : totalCallsMonth}</div>
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold mt-1">Incoming / Outbound this month</p>
           </CardContent>
         </Card>
 
         {/* KPI 4: Total Students */}
-        <Card className="bg-[#1e293b] border-slate-800 text-slate-100 hover:border-violet-500/30 transition-all duration-300">
+        <Card className="glass-panel border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 hover:border-violet-500/30 transition-all duration-300">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-            <CardTitle className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Students</CardTitle>
+            <CardTitle className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Students</CardTitle>
             <div className="p-2 bg-violet-500/10 rounded-lg text-violet-400 border border-violet-500/20">
               <Users className="h-4.5 w-4.5" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-extrabold tracking-tight text-white">{loading ? "..." : totalStudents}</div>
-            <p className="text-[10px] text-slate-500 font-semibold mt-1">Enrolled across all tenants</p>
+            <div className="text-3xl font-extrabold tracking-tight text-slate-905 dark:text-white">{loading ? "..." : totalStudents}</div>
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold mt-1">Enrolled across all tenants</p>
           </CardContent>
         </Card>
       </div>
 
       {/* Schools Table Section */}
-      <Card className="bg-[#1e293b] border-slate-800">
-        <CardHeader className="pb-4 border-b border-slate-800 flex flex-row items-center justify-between">
+      <Card className="glass-panel border-slate-200 dark:border-slate-800">
+        <CardHeader className="pb-4 border-b border-slate-200 dark:border-slate-800 flex flex-row items-center justify-between">
           <div>
-            <h2 className="text-lg font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            <h2 className="text-lg font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
               <Activity className="h-5 w-5 text-amber-500" />
               Tenant Schools Registry
             </h2>
-            <p className="text-xs text-slate-400 font-medium">Manage and audit tenant databases, telephone routing, and connection status.</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Manage and audit tenant databases, telephone routing, and connection status.</p>
           </div>
         </CardHeader>
         <CardContent className="pt-6">
@@ -341,50 +341,50 @@ export default function SuperAdminDashboard() {
               <div className="h-8 w-8 animate-spin rounded-full border-4 border-amber-500 border-t-transparent"></div>
             </div>
           ) : schools.length > 0 ? (
-            <div className="overflow-x-auto rounded-lg border border-slate-800">
+            <div className="overflow-x-auto rounded-lg border border-slate-200 dark:border-slate-800">
               <Table>
-                <TableHeader className="bg-slate-900/60">
-                  <TableRow className="border-b border-slate-800">
-                    <TableHead className="text-slate-300 font-bold text-xs uppercase tracking-wider py-4 pl-6">School Name</TableHead>
-                    <TableHead className="text-slate-300 font-bold text-xs uppercase tracking-wider">City</TableHead>
-                    <TableHead className="text-slate-300 font-bold text-xs uppercase tracking-wider text-right">Students</TableHead>
-                    <TableHead className="text-slate-300 font-bold text-xs uppercase tracking-wider text-right">Calls (Month)</TableHead>
-                    <TableHead className="text-slate-300 font-bold text-xs uppercase tracking-wider text-right">Last Active</TableHead>
-                    <TableHead className="text-slate-300 font-bold text-xs uppercase tracking-wider text-center">Status</TableHead>
-                    <TableHead className="text-slate-300 font-bold text-xs uppercase tracking-wider text-center pr-6">Actions</TableHead>
+                <TableHeader className="bg-slate-50 dark:bg-slate-950/60">
+                  <TableRow className="border-b border-slate-200 dark:border-slate-800 hover:bg-transparent">
+                    <TableHead className="text-slate-500 dark:text-slate-300 font-bold text-xs uppercase tracking-wider py-4 pl-6">School Name</TableHead>
+                    <TableHead className="text-slate-500 dark:text-slate-300 font-bold text-xs uppercase tracking-wider">City</TableHead>
+                    <TableHead className="text-slate-500 dark:text-slate-300 font-bold text-xs uppercase tracking-wider text-right">Students</TableHead>
+                    <TableHead className="text-slate-500 dark:text-slate-300 font-bold text-xs uppercase tracking-wider text-right">Calls (Month)</TableHead>
+                    <TableHead className="text-slate-500 dark:text-slate-300 font-bold text-xs uppercase tracking-wider text-right">Last Active</TableHead>
+                    <TableHead className="text-slate-500 dark:text-slate-300 font-bold text-xs uppercase tracking-wider text-center">Status</TableHead>
+                    <TableHead className="text-slate-500 dark:text-slate-300 font-bold text-xs uppercase tracking-wider text-center pr-6">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {schools.map((school) => (
-                    <TableRow key={school.id} className="hover:bg-slate-800/40 border-b border-slate-800/80 transition-colors">
-                      <TableCell className="font-semibold text-white py-4 pl-6">{school.name}</TableCell>
-                      <TableCell className="text-slate-300 font-medium">
+                    <TableRow key={school.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/40 border-b border-slate-200 dark:border-slate-800/80 transition-colors">
+                      <TableCell className="font-bold text-slate-900 dark:text-white py-4 pl-6">{school.name}</TableCell>
+                      <TableCell className="text-slate-700 dark:text-slate-350 font-medium">
                         {school.city ? (
                           <span className="flex items-center gap-1">
-                            <MapPin className="h-3 w-3 text-slate-500" />
+                            <MapPin className="h-3 w-3 text-slate-400 dark:text-slate-500" />
                             {school.city}
                           </span>
                         ) : (
-                          <span className="text-slate-600 italic">Unspecified</span>
+                          <span className="text-slate-450 dark:text-slate-600 italic">Unspecified</span>
                         )}
                       </TableCell>
-                      <TableCell className="text-right text-slate-300 font-bold">{school.stats?.total_students || 0}</TableCell>
-                      <TableCell className="text-right text-slate-300 font-bold">{school.stats?.calls_this_month || 0}</TableCell>
-                      <TableCell className="text-right text-slate-400 text-xs font-bold">
+                      <TableCell className="text-right text-slate-700 dark:text-slate-300 font-bold">{school.stats?.total_students || 0}</TableCell>
+                      <TableCell className="text-right text-slate-700 dark:text-slate-300 font-bold">{school.stats?.calls_this_month || 0}</TableCell>
+                      <TableCell className="text-right text-slate-500 dark:text-slate-400 text-xs font-bold">
                         {school.stats?.last_call_at ? (
                           <span className="flex items-center justify-end gap-1">
                             <Calendar className="h-3 w-3 text-slate-500" />
                             {school.stats.last_call_at.split("T")[0]}
                           </span>
                         ) : (
-                          <span className="text-slate-600 italic">No calls</span>
+                          <span className="text-slate-450 dark:text-slate-600 italic">No calls</span>
                         )}
                       </TableCell>
                       <TableCell className="text-center py-4">
                         <Badge className={`rounded-full px-2.5 py-0.5 text-[10px] font-extrabold uppercase border ${
                           school.is_active 
-                            ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" 
-                            : "bg-rose-500/10 text-rose-400 border-rose-500/20"
+                            ? "bg-emerald-500/10 text-emerald-500 dark:text-emerald-400 border-emerald-500/20" 
+                            : "bg-rose-500/10 text-rose-500 dark:text-rose-400 border-rose-500/20"
                         }`}>
                           {school.is_active ? "Active" : "Inactive"}
                         </Badge>
@@ -392,7 +392,7 @@ export default function SuperAdminDashboard() {
                       <TableCell className="text-center pr-6">
                         <div className="flex items-center justify-center gap-2">
                           <Link href={`/super-admin/schools/${school.id}`} passHref>
-                            <Button size="sm" variant="outline" className="border-slate-700 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-semibold px-3 h-8 cursor-pointer">
+                            <Button size="sm" variant="outline" className="border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-semibold px-3 h-8 cursor-pointer">
                               View
                             </Button>
                           </Link>
@@ -402,8 +402,8 @@ export default function SuperAdminDashboard() {
                             onClick={() => openStatusConfirm(school)}
                             className={`text-xs font-semibold px-3 h-8 cursor-pointer ${
                               school.is_active 
-                                ? "bg-rose-500/10 border border-rose-500/20 hover:bg-rose-500 hover:text-slate-950 text-rose-400 hover:border-transparent" 
-                                : "bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500 hover:text-slate-950 text-emerald-400 hover:border-transparent"
+                                ? "bg-rose-500/10 border border-rose-500/20 hover:bg-rose-500 hover:text-slate-950 text-rose-500 dark:text-rose-400 hover:border-transparent" 
+                                : "bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500 hover:text-slate-950 text-emerald-500 dark:text-emerald-400 hover:border-transparent"
                             }`}
                           >
                             {school.is_active ? "Deactivate" : "Activate"}
@@ -416,7 +416,7 @@ export default function SuperAdminDashboard() {
               </Table>
             </div>
           ) : (
-            <div className="flex h-32 w-full flex-col items-center justify-center border border-dashed border-slate-800 rounded-xl bg-slate-900/10 text-slate-500 font-semibold">
+            <div className="flex h-32 w-full flex-col items-center justify-center border border-dashed border-slate-200 dark:border-slate-800 rounded-xl bg-slate-50 dark:bg-slate-900/10 text-slate-450 dark:text-slate-500 font-semibold">
               No school tenants registered. Click "Add School" to get started.
             </div>
           )}
@@ -425,27 +425,27 @@ export default function SuperAdminDashboard() {
 
       {/* Confirmation Dialog for Status Change */}
       <Dialog open={isConfirmOpen} onOpenChange={setIsConfirmOpen}>
-        <DialogContent className="bg-[#1e293b] border border-slate-800 text-slate-100 w-full max-w-md">
-          <DialogHeader className="pb-4 border-b border-slate-800 space-y-2">
-            <DialogTitle className="text-md font-bold text-white uppercase tracking-wider flex items-center gap-2.5">
+        <DialogContent className="bg-white dark:bg-[#1e293b] border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 w-full max-w-md">
+          <DialogHeader className="pb-4 border-b border-slate-200 dark:border-slate-800 space-y-2">
+            <DialogTitle className="text-md font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2.5">
               <AlertTriangle className="h-5 w-5 text-rose-500" />
               Confirm Status Update
             </DialogTitle>
           </DialogHeader>
-          <div className="py-5 text-sm text-slate-300 font-medium leading-relaxed">
-            Are you sure you want to {confirmSchool?.is_active ? "DEACTIVATE" : "ACTIVATE"} the school tenant <strong className="text-white">'{confirmSchool?.name}'</strong>?
+          <div className="py-5 text-sm text-slate-700 dark:text-slate-300 font-semibold leading-relaxed">
+            Are you sure you want to {confirmSchool?.is_active ? "DEACTIVATE" : "ACTIVATE"} the school tenant <strong className="text-slate-950 dark:text-white">'{confirmSchool?.name}'</strong>?
             {confirmSchool?.is_active && (
-              <p className="mt-2 text-xs text-rose-400 font-semibold bg-rose-500/10 border border-rose-500/20 p-3 rounded-lg flex gap-2">
+              <p className="mt-2 text-xs text-rose-600 dark:text-rose-400 font-semibold bg-rose-500/10 border border-rose-500/20 p-3 rounded-lg flex gap-2">
                 Warning: Deactivating the school immediately blocks dashboard logins and voice-agent caller routes for this tenant.
               </p>
             )}
           </div>
-          <div className="flex justify-end gap-3 pt-4 border-t border-slate-800">
+          <div className="flex justify-end gap-3 pt-4 border-t border-slate-200 dark:border-slate-800">
             <Button
               variant="outline"
               disabled={statusLoading}
               onClick={() => setIsConfirmOpen(false)}
-              className="border-slate-700 text-slate-300 hover:bg-slate-800 text-xs font-semibold h-9 px-4 cursor-pointer"
+              className="border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs font-semibold h-9 px-4 cursor-pointer"
             >
               Cancel
             </Button>
@@ -466,30 +466,30 @@ export default function SuperAdminDashboard() {
 
       {/* Credentials Popup Modal */}
       <Dialog open={isCredentialsModalOpen} onOpenChange={setIsCredentialsModalOpen}>
-        <DialogContent className="bg-[#1e293b] border border-slate-800 text-slate-100 w-full max-w-md">
-          <DialogHeader className="pb-4 border-b border-slate-800">
-            <DialogTitle className="text-md font-extrabold text-emerald-400 uppercase tracking-wider flex items-center gap-2">
+        <DialogContent className="bg-white dark:bg-[#1e293b] border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 w-full max-w-md">
+          <DialogHeader className="pb-4 border-b border-slate-200 dark:border-slate-800">
+            <DialogTitle className="text-md font-extrabold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider flex items-center gap-2">
               <CheckCircle className="h-5 w-5 stroke-[2.5]" />
               School Created Successfully
             </DialogTitle>
           </DialogHeader>
-          <div className="py-4 space-y-3 font-medium text-xs leading-relaxed text-slate-300">
-            <p className="text-slate-400">Share these login details with the school admin:</p>
+          <div className="py-4 space-y-3 font-semibold text-xs leading-relaxed text-slate-700 dark:text-slate-300">
+            <p className="text-slate-500 dark:text-slate-400">Share these login details with the school admin:</p>
             
             {/* Display Credentials Box */}
-            <div className="bg-[#0f172a] border border-slate-800 rounded-lg p-5 space-y-2.5 font-mono text-xs relative overflow-hidden select-all">
+            <div className="bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-lg p-5 space-y-2.5 font-mono text-xs relative overflow-hidden select-all">
               <div>
-                <span className="text-slate-500 font-bold">Login URL:</span> <span className="text-amber-500 font-semibold">app.schoolvoice.in/login</span>
+                <span className="text-slate-550 dark:text-slate-500 font-bold">Login URL:</span> <span className="text-amber-600 dark:text-amber-500 font-semibold">app.schoolsync.ai/login</span>
               </div>
               <div>
-                <span className="text-slate-500 font-bold">Email:</span> <span className="text-slate-100 font-semibold">{createdCredentials?.admin_user?.email}</span>
+                <span className="text-slate-555 dark:text-slate-500 font-bold">Email:</span> <span className="text-slate-800 dark:text-slate-100 font-semibold">{createdCredentials?.admin_user?.email}</span>
               </div>
               <div>
-                <span className="text-slate-500 font-bold">Password:</span> <span className="text-emerald-400 font-bold">{createdCredentials?.generated_password}</span>
+                <span className="text-slate-555 dark:text-slate-500 font-bold">Password:</span> <span className="text-emerald-650 dark:text-emerald-450 font-bold">{createdCredentials?.generated_password}</span>
               </div>
             </div>
           </div>
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-200 dark:border-slate-800">
             <Button
               onClick={handleCopyCredentials}
               className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs h-9 px-4 flex items-center gap-2 cursor-pointer"
@@ -499,7 +499,7 @@ export default function SuperAdminDashboard() {
             </Button>
             <Button
               onClick={() => setIsCredentialsModalOpen(false)}
-              className="bg-slate-700 hover:bg-slate-600 text-white font-semibold text-xs h-9 px-4 cursor-pointer"
+              className="bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-800 dark:text-white font-semibold text-xs h-9 px-4 cursor-pointer"
             >
               Done
             </Button>
