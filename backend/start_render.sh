@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Run database migrations
+alembic upgrade head
+
 # Start the LiveKit Voice Agent in the background
 python voice_agent/agent.py start &
 

@@ -3,7 +3,7 @@ services:
   - type: web
     name: voice-ai-free
     env: python
-    buildCommand: "cd backend && pip install -r requirements.txt && alembic upgrade head"
+    buildCommand: "cd backend && pip install -r requirements.txt"
     startCommand: "cd backend && bash start_render.sh"
     envVars:
       - key: PYTHON_VERSION
